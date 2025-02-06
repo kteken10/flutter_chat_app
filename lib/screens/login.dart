@@ -1,9 +1,7 @@
-// login.dart (Écran de connexion Firebase)
 import 'package:flutter/material.dart';
 import '../constants/colors.dart';
 import '../service/firebase/auth.dart';
 import '../ui/input.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -45,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (result == "success") {
       _showMessage("Connexion réussie !");
-      Navigator.pushNamed(context, '/home');
+      Navigator.pushNamed(context, '/chat');
     } else {
       _showMessage(result);
     }
@@ -61,63 +59,74 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              "Connexion",
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                color: AppColors.primaryColor,
-              ),
-            ),
-            const SizedBox(height: 32.0),
-            InputField(
-              controller: _emailController,
-              label: "Email",
-              keyboardType: TextInputType.emailAddress,
-              obscureText: false,
-            ),
-            InputField(
-              controller: _passwordController,
-              label: "Mot de passe",
-              keyboardType: TextInputType.text,
-              obscureText: true,
-            ),
-            const SizedBox(height: 24.0),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _isLoading ? null : _login,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 14.0),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(), // Fermer le clavier au tap
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.2, // Ajustement dynamique
                 ),
-                child: _isLoading
-                    ? const CircularProgressIndicator(color: Colors.white)
-                    : const Text(
-                        "Se connecter",
-                        style: TextStyle(fontSize: 16.0, color: Colors.white),
+                const Text(
+                  "Connexion",
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+                const SizedBox(height: 32.0),
+                InputField(
+                  controller: _emailController,
+                  label: "Email",
+                  keyboardType: TextInputType.emailAddress,
+                  obscureText: false,
+                ),
+                InputField(
+                  controller: _passwordController,
+                  label: "Mot de passe",
+                  keyboardType: TextInputType.text,
+                  obscureText: true,
+                ),
+                const SizedBox(height: 24.0),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _isLoading ? null : _login,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
                       ),
-              ),
+                      padding: const EdgeInsets.symmetric(vertical: 14.0),
+                    ),
+                    child: _isLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                            "Se connecter",
+                            style: TextStyle(fontSize: 16.0, color: Colors.white),
+                          ),
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/signup');
+                  },
+                  child: const Text(
+                    "Pas encore de compte ? Inscrivez-vous",
+                    style: TextStyle(color: AppColors.primaryColor),
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.1, // Éviter le chevauchement
+                ),
+              ],
             ),
-            const SizedBox(height: 16.0),
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/signup');
-              },
-              child: const Text(
-                "Pas encore de compte ? Inscrivez-vous",
-                style: TextStyle(color: AppColors.primaryColor),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

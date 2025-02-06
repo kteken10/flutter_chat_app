@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/chat.dart';
 import '../screens/login.dart';
 import '../screens/signup.dart';
 
@@ -18,6 +19,7 @@ class Root extends StatelessWidget {
       routes: {
         '/': (context) => const LoginScreen(),
         '/signup': (context) => const SignUpScreen(),
+        '/chat':(context) => const ChatScreen(email: '',),
       },
     );
   }

@@ -3,9 +3,9 @@ import '../constants/colors.dart';
 import '../service/firebase/auth.dart';
 import '../ui/input.dart';
 
-
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
+
   @override
   // ignore: library_private_types_in_public_api
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -46,8 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     if (result == "success") {
       _showMessage("Inscription réussie !");
-
-      // Navigator.pushNamed(context, '/home');
+      Navigator.pushNamed(context, '/chat');
     } else {
       _showMessage(result);
     }
@@ -63,69 +62,76 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              "Inscription",
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                color: AppColors.primaryColor,
-              ),
-            ),
-            const SizedBox(height: 32.0),
-            InputField(
-              controller: _nameController,
-              label: "Nom",
-              keyboardType: TextInputType.text,
-              obscureText: false,
-            ),
-            InputField(
-              controller: _emailController,
-              label: "Email",
-              keyboardType: TextInputType.emailAddress,
-              obscureText: false,
-            ),
-            InputField(
-              controller: _passwordController,
-              label: "Mot de passe",
-              keyboardType: TextInputType.text,
-              obscureText: true,
-            ),
-            const SizedBox(height: 24.0),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _isLoading ? null : _signUp,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.2),
+                const Text(
+                  "Inscription",
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryColor,
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 14.0),
                 ),
-                child: _isLoading
-                    ? const CircularProgressIndicator(color: Colors.white)
-                    : const Text(
-                        "S'inscrire",
-                        style: TextStyle(fontSize: 16.0, color: Colors.white),
+                const SizedBox(height: 32.0),
+                InputField(
+                  controller: _nameController,
+                  label: "Nom",
+                  keyboardType: TextInputType.text,
+                  obscureText: false,
+                ),
+                InputField(
+                  controller: _emailController,
+                  label: "Email",
+                  keyboardType: TextInputType.emailAddress,
+                  obscureText: false,
+                ),
+                InputField(
+                  controller: _passwordController,
+                  label: "Mot de passe",
+                  keyboardType: TextInputType.text,
+                  obscureText: true,
+                ),
+                const SizedBox(height: 24.0),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _isLoading ? null : _signUp,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
                       ),
-              ),
+                      padding: const EdgeInsets.symmetric(vertical: 14.0),
+                    ),
+                    child: _isLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                            "S'inscrire",
+                            style: TextStyle(fontSize: 16.0, color: Colors.white),
+                          ),
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/');
+                  },
+                  child: const Text(
+                    "Déjà un compte ? Connectez-vous",
+                    style: TextStyle(color: AppColors.primaryColor),
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+              ],
             ),
-            const SizedBox(height: 16.0),
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/');
-              },
-              child: const Text(
-                "Déjà un compte ? Connectez-vous",
-                style: TextStyle(color: AppColors.primaryColor),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
