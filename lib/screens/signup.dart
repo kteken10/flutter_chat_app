@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants/colors.dart';
 import '../ui/input.dart';
-
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -19,12 +18,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     String name = _nameController.text.trim();
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
-
-    if (name.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
-      print("Inscription avec: Nom: $name, Email: $email, Password: $password");
-    } else {
-      print("Veuillez remplir tous les champs");
-    }
+    // Ajouter la logique d'inscription ici
   }
 
   @override
@@ -79,6 +73,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   "S'inscrire",
                   style: TextStyle(fontSize: 16.0, color: Colors.white),
                 ),
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/');
+              },
+              child: const Text(
+                "Déjà un compte ? Connectez-vous",
+                style: TextStyle(color: AppColors.primaryColor),
               ),
             ),
           ],

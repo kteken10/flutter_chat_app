@@ -6,7 +6,6 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _LoginScreenState createState() => _LoginScreenState();
 }
 
@@ -15,11 +14,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   void _login() {
-    
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
-
-  
+    // Ajouter la logique de connexion ici
   }
 
   @override
@@ -68,6 +65,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   "Se connecter",
                   style: TextStyle(fontSize: 16.0, color: Colors.white),
                 ),
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/signup');
+              },
+              child: const Text(
+                "Pas encore de compte ? Inscrivez-vous",
+                style: TextStyle(color: AppColors.primaryColor),
               ),
             ),
           ],
