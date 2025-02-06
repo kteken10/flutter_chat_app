@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class MessageScreen extends StatefulWidget {
   final String email;
+  
   const MessageScreen({super.key, required this.email});
 
   @override
-  // ignore: library_private_types_in_public_api
   _MessageScreenState createState() => _MessageScreenState(email: email);
 }
 
@@ -14,15 +14,19 @@ class _MessageScreenState extends State<MessageScreen> {
   final String email;
   _MessageScreenState({required this.email});
 
-  final Stream<QuerySnapshot> _messageStream = FirebaseFirestore.instance
-      .collection('Messages')
-      .orderBy('time')
-      .snapshots();
+  final FirebaseFirestore fs = FirebaseFirestore.instance;
+
+  // Stream avec un filtre dynamique selon la recherche
+  Stream<QuerySnapshot> getMessagesStream() {
+    return fs.collection('Messages')
+        .orderBy('time')
+        .snapshots();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: _messageStream,
+    return StreamBuilder<QuerySnapshot>(
+      stream: getMessagesStream(),  // Utilisation du stream filtré
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return const Text("Something went wrong");
@@ -69,7 +73,7 @@ class _MessageScreenState extends State<MessageScreen> {
                       subtitle: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
+                          SizedBox(
                             width: 200,
                             child: Text(
                               qs['message'],
