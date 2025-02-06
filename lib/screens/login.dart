@@ -1,6 +1,5 @@
 // login.dart (Écran de connexion Firebase)
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../constants/colors.dart';
 import '../service/firebase/auth.dart';
 import '../ui/input.dart';
@@ -10,6 +9,7 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginScreenState createState() => _LoginScreenState();
 }
 

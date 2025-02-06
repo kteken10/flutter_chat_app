@@ -47,7 +47,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (result == "success") {
       _showMessage("Inscription réussie !");
 
-      Navigator.pushNamed(context, '/home');
+      // Navigator.pushNamed(context, '/home');
     } else {
       _showMessage(result);
     }
