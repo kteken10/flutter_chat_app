@@ -24,7 +24,7 @@ class _BottomNavState extends State<BottomNav> {
     const DiscussionsScreen(),
     const StoriesScreen(),
     const CallsScreen(),
-     PeopleScreen(), 
+     const PeopleScreen(), 
   const SettingsScreen(), 
   ];
 

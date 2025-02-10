@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import '../../../core/theme.dart';
 import '../../../core/utils.dart';
 import '../../../data/providers/auth_provider.dart';
@@ -30,7 +31,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     String password = _passwordController.text.trim();
 
     if (name.isEmpty || email.isEmpty || password.isEmpty) {
-      _showMessage("Veuillez remplir tous les champs !");
+      showToast("Veuillez remplir tous les champs !");
       setState(() {
         _isLoading = false;
       });
@@ -38,7 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     if (!validateEmail(email)) {
-      _showMessage("Veuillez entrer un email valide.");
+      showToast("Veuillez entrer un email valide.");
       setState(() {
         _isLoading = false;
       });
@@ -53,27 +54,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
       );
 
       if (result == "success") {
-        _showMessage("Inscription réussie !");
+        showAwesomeDialog(context, "Inscription réussie !", DialogType.success);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const BottomNav()),
         );
       } else {
-        _showMessage(result);
+        showAwesomeDialog(context, result, DialogType.error);
       }
     } catch (e) {
-      _showMessage("Une erreur s'est produite. Veuillez réessayer.");
+      showAwesomeDialog(context, "Une erreur s'est produite. Veuillez réessayer.", DialogType.error);
     } finally {
       setState(() {
         _isLoading = false;
       });
     }
-  }
-
-  void _showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), duration: const Duration(seconds: 2)),
-    );
   }
 
   @override

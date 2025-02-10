@@ -1,6 +1,8 @@
+// lib/root.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../data/providers/auth_provider.dart';
+import '../../data/providers/user_provider.dart';
 import '../screens/auth/login.dart';
 import '../screens/auth/signup.dart';
 import '../widget/bottom_nav.dart';
@@ -10,8 +12,11 @@ class Root extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => AuthProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'ChatApp',

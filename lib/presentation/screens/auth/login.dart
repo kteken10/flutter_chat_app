@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import '../../../core/theme.dart';
 import '../../../core/utils.dart';
 import '../../../data/models/user_model.dart';
@@ -9,7 +10,6 @@ import '../../ui/input.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-
   @override
   // ignore: library_private_types_in_public_api
   _LoginScreenState createState() => _LoginScreenState();
@@ -20,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
 
+
   void _login() async {
     setState(() {
       _isLoading = true;
@@ -27,39 +28,35 @@ class _LoginScreenState extends State<LoginScreen> {
 
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
-
     if (email.isEmpty || password.isEmpty) {
-      showMessage(context, "Veuillez remplir tous les champs !");
+      showToast("Veuillez remplir tous les champs !");
       setState(() {
         _isLoading = false;
       });
       return;
     }
-
     try {
       UserModel? user = await Provider.of<AuthProvider>(context, listen: false).login(
         email: email,
         password: password,
       );
-
       if (user != null) {
-        showMessage(context, "Connexion réussie !");
+        showAwesomeDialog(context, "Connexion réussie !", DialogType.success);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const BottomNav()),
         );
       } else {
-        showMessage(context, "Échec de la connexion. Veuillez vérifier vos identifiants.");
+        showAwesomeDialog(context, "Échec de la connexion. Veuillez vérifier vos identifiants.", DialogType.error);
       }
     } catch (e) {
-      showMessage(context, "Une erreur s'est produite. Veuillez réessayer.");
+      showAwesomeDialog(context, "Une erreur s'est produite. Veuillez réessayer.", DialogType.error);
     } finally {
       setState(() {
         _isLoading = false;
       });
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

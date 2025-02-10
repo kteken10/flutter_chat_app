@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../data/providers/auth_provider.dart';
+import '../auth/login.dart';
+
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
@@ -18,7 +21,9 @@ class SettingsScreen extends StatelessWidget {
             leading: const Icon(Icons.logout),
             onTap: () async {
               await authProvider.logout();
-              Navigator.pushReplacementNamed(context, '/login');
+              Navigator.of(context, rootNavigator: true).pushReplacement(
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+              );
             },
           ),
         ],

@@ -41,6 +41,8 @@ dependencies:
   provider: ^6.1.2
   iconsax: ^0.0.8
   persistent_bottom_nav_bar: ^6.2.1
+  fluttertoast: ^8.2.11
+  awesome_dialog: ^3.2.1
   
 
 dev_dependencies:
