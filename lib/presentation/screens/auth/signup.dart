@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/theme.dart';
 import '../../../core/utils.dart';
-import '../../../services/firebase/auth_service.dart';
+import '../../../data/providers/auth_provider.dart';
 import '../../ui/input.dart';
 import '../../widget/bottom_nav.dart';
-
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -45,24 +45,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return;
     }
 
-    String result = await AuthService().signUpUser(
-      email: email,
-      password: password,
-      name: name,
-    );
-
-    setState(() {
-      _isLoading = false;
-    });
-
-    if (result == "success") {
-      _showMessage("Inscription réussie !");
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const BottomNav()), 
+    try {
+      String result = await Provider.of<AuthProvider>(context, listen: false).signUp(
+        email: email,
+        password: password,
+        name: name,
       );
-    } else {
-      _showMessage(result);
+
+      if (result == "success") {
+        _showMessage("Inscription réussie !");
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const BottomNav()),
+        );
+      } else {
+        _showMessage(result);
+      }
+    } catch (e) {
+      _showMessage("Une erreur s'est produite. Veuillez réessayer.");
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
