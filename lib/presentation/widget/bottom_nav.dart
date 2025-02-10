@@ -24,7 +24,7 @@ class _BottomNavState extends State<BottomNav> {
     const StoriesScreen(),
     const CallsScreen(),
      PeopleScreen(), 
-    const SettingsScreen(), 
+  SettingsScreen(), 
   ];
 
  
@@ -71,7 +71,7 @@ class _BottomNavState extends State<BottomNav> {
       navBarStyle: NavBarStyle.style6, 
       backgroundColor: Colors.white, 
       padding: const EdgeInsets.only( bottom: 8,top: 8),
-      
+
 
        
     //  padding: const EdgeInsets.symmetric(vertical: 20),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../constants/colors.dart';
-import '../../service/firebase/auth.dart';
+import '../../../core/theme.dart';
+import '../../../core/utils.dart';
+import '../../../services/firebase/auth_service.dart';
 import '../../ui/input.dart';
 import '../../widget/bottom_nav.dart';
 
@@ -30,6 +31,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     if (name.isEmpty || email.isEmpty || password.isEmpty) {
       _showMessage("Veuillez remplir tous les champs !");
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      _showMessage("Veuillez entrer un email valide.");
       setState(() {
         _isLoading = false;
       });

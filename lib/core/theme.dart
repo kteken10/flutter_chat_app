@@ -13,4 +13,3 @@ class AppColors {
   static const Color backWrite = Color(0xFF494D52);
   static const Color fond = Color(0xFF8DACD3);  
 }
-

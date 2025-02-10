@@ -1,13 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../core/utils.dart';
 
-import '../../utils/auth.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
- 
 
   bool _validatePassword(String password) {
     return password.length >= 6;
@@ -87,5 +85,9 @@ class AuthService {
 
   Future<void> logout() async {
     await _auth.signOut();
+  }
+
+  Future<User?> getCurrentUser() async {
+    return _auth.currentUser;
   }
 }

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../constants/colors.dart';
-import '../../providers/user_provider.dart';
-import '../../service/firebase/auth.dart';
-import '../../ui/input.dart';
-import '../../utils/auth.dart';
+import '../../../core/theme.dart';
+import '../../../core/utils.dart';
+import '../../../data/models/user_model.dart';
+import '../../../data/providers/auth_provider.dart';
 import '../../widget/bottom_nav.dart';
+import '../../ui/input.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _LoginScreenState createState() => _LoginScreenState();
 }
 
@@ -37,25 +35,20 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-  
-
     try {
-      String result = await AuthService().loginUser(
+      UserModel? user = await Provider.of<AuthProvider>(context, listen: false).login(
         email: email,
         password: password,
       );
 
-      if (result == "success") {
+      if (user != null) {
         showMessage(context, "Connexion réussie !");
-        Provider.of<UserProvider>(context, listen: false).setEmail(email);
-
-        // Redirection vers BottomNav
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const BottomNav()),
         );
       } else {
-        showMessage(context, result); 
+        showMessage(context, "Échec de la connexion. Veuillez vérifier vos identifiants.");
       }
     } catch (e) {
       showMessage(context, "Une erreur s'est produite. Veuillez réessayer.");

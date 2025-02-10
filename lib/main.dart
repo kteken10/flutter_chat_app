@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'navigation/root.dart';
+import 'presentation/navigation/root.dart';
 
 
 void main() async {

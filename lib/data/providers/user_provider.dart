@@ -47,7 +47,7 @@ class UserProvider with ChangeNotifier {
     _email = null;
     _name = null;
     _profilePicture = null;
-    _isLoggedIn = false; // L'utilisateur est déconnecté
+    _isLoggedIn = false; 
     notifyListeners();
   }
 
