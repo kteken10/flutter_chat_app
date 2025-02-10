@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../data/providers/user_provider.dart';
-
+import '../../data/providers/auth_provider.dart';
 import '../screens/auth/login.dart';
 import '../screens/auth/signup.dart';
 import '../widget/bottom_nav.dart';
@@ -13,7 +11,7 @@ class Root extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => UserProvider(),
+      create: (context) => AuthProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'ChatApp',

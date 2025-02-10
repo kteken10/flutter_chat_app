@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
-
 class AppTypography {
   static TextStyle textXs(BuildContext context) {
     return const TextStyle(

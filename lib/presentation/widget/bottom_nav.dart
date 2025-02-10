@@ -11,6 +11,7 @@ class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _BottomNavState createState() => _BottomNavState();
 }
 
@@ -24,7 +25,7 @@ class _BottomNavState extends State<BottomNav> {
     const StoriesScreen(),
     const CallsScreen(),
      PeopleScreen(), 
-  SettingsScreen(), 
+  const SettingsScreen(), 
   ];
 
  

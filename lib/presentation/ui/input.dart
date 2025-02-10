@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme.dart';
 
-
-
 class InputField extends StatelessWidget {
   final TextEditingController controller;
   final String label;
