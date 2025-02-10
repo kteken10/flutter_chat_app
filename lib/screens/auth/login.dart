@@ -5,8 +5,8 @@ import '../../constants/colors.dart';
 import '../../providers/user_provider.dart';
 import '../../service/firebase/auth.dart';
 import '../../ui/input.dart';
+import '../../utils/auth.dart';
 import '../../widget/bottom_nav.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -30,38 +30,40 @@ class _LoginScreenState extends State<LoginScreen> {
     String password = _passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      _showMessage("Veuillez remplir tous les champs !");
+      showMessage(context, "Veuillez remplir tous les champs !");
       setState(() {
         _isLoading = false;
       });
       return;
     }
 
-    String result = await AuthService().loginUser(
-      email: email,
-      password: password,
-    );
+  
 
-    setState(() {
-      _isLoading = false;
-    });
-
-    if (result == "success") {
-      _showMessage("Connexion réussie !");
-      Provider.of<UserProvider>(context, listen: false).setEmail(email);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const BottomNav()), 
+    try {
+      String result = await AuthService().loginUser(
+        email: email,
+        password: password,
       );
-    } else {
-      _showMessage(result);
-    }
-  }
 
-  void _showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), duration: const Duration(seconds: 2)),
-    );
+      if (result == "success") {
+        showMessage(context, "Connexion réussie !");
+        Provider.of<UserProvider>(context, listen: false).setEmail(email);
+
+        // Redirection vers BottomNav
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const BottomNav()),
+        );
+      } else {
+        showMessage(context, result); 
+      }
+    } catch (e) {
+      showMessage(context, "Une erreur s'est produite. Veuillez réessayer.");
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override

@@ -68,9 +68,14 @@ class _BottomNavState extends State<BottomNav> {
       controller: _controller,
       screens: _screens,
       items: _navBarItems,
-      navBarStyle: NavBarStyle.style6, // Style de la barre de navigation
-      backgroundColor: Colors.white, // Couleur de fond de la barre
-      navBarHeight: 70,
+      navBarStyle: NavBarStyle.style6, 
+      backgroundColor: Colors.white, 
+      padding: const EdgeInsets.only( bottom: 8,top: 8),
+      
+
+       
+    //  padding: const EdgeInsets.symmetric(vertical: 20),
+    //  margin:const EdgeInsets.symmetric(vertical: 16)
      
     );
   }
