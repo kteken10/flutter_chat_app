@@ -26,10 +26,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
       _isLoading = true;
     });
 
-    String name = _nameController.text.trim();
-    String email = _emailController.text.trim();
-    String password = _passwordController.text.trim();
+    final String name = _nameController.text.trim();
+    final String email = _emailController.text.trim();
+    final String password = _passwordController.text.trim();
 
+    // Validation des champs
     if (name.isEmpty || email.isEmpty || password.isEmpty) {
       showToast("Veuillez remplir tous les champs !");
       setState(() {
@@ -47,23 +48,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     try {
-      String result = await Provider.of<AuthProvider>(context, listen: false).signUp(
+      // Appeler la méthode signUp de AuthProvider
+      await Provider.of<AuthProvider>(context, listen: false).signUp(
         email: email,
         password: password,
         name: name,
       );
 
-      if (result == "success") {
-        showAwesomeDialog(context, "Inscription réussie !", DialogType.success);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const BottomNav()),
-        );
-      } else {
-        showAwesomeDialog(context, result, DialogType.error);
-      }
+      // Afficher un message de succès
+      showAwesomeDialog(context, "Inscription réussie !", DialogType.success);
+
+      // Rediriger vers l'écran principal
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const BottomNav()),
+      );
     } catch (e) {
-      showAwesomeDialog(context, "Une erreur s'est produite. Veuillez réessayer.", DialogType.error);
+      // Afficher l'erreur
+      showAwesomeDialog(context, e.toString(), DialogType.error);
     } finally {
       setState(() {
         _isLoading = false;
@@ -129,6 +131,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             "S'inscrire",
                             style: TextStyle(fontSize: 16.0, color: Colors.white),
                           ),
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/login');
+                  },
+                  child: const Text(
+                    "Déjà un compte ? Connectez-vous",
+                    style: TextStyle(color: AppColors.primaryColor),
                   ),
                 ),
               ],

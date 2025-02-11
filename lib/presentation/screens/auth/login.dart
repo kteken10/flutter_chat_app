@@ -3,15 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import '../../../core/theme.dart';
 import '../../../core/utils.dart';
-import '../../../data/models/user_model.dart';
 import '../../../data/providers/auth_provider.dart';
 import '../../widget/bottom_nav.dart';
 import '../../ui/input.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
   @override
-  // ignore: library_private_types_in_public_api
   _LoginScreenState createState() => _LoginScreenState();
 }
 
@@ -20,14 +19,15 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
 
-
   void _login() async {
     setState(() {
       _isLoading = true;
     });
 
-    String email = _emailController.text.trim();
-    String password = _passwordController.text.trim();
+    final String email = _emailController.text.trim();
+    final String password = _passwordController.text.trim();
+
+    // Validation des champs
     if (email.isEmpty || password.isEmpty) {
       showToast("Veuillez remplir tous les champs !");
       setState(() {
@@ -35,28 +35,32 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       return;
     }
+
     try {
-      UserModel? user = await Provider.of<AuthProvider>(context, listen: false).login(
+      // Appeler la méthode login de AuthProvider
+      await Provider.of<AuthProvider>(context, listen: false).login(
         email: email,
         password: password,
       );
-      if (user != null) {
-        showAwesomeDialog(context, "Connexion réussie !", DialogType.success);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const BottomNav()),
-        );
-      } else {
-        showAwesomeDialog(context, "Échec de la connexion. Veuillez vérifier vos identifiants.", DialogType.error);
-      }
+
+      // Afficher un message de succès
+      showAwesomeDialog(context, "Connexion réussie !", DialogType.success);
+
+      // Rediriger vers l'écran principal
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const BottomNav()),
+      );
     } catch (e) {
-      showAwesomeDialog(context, "Une erreur s'est produite. Veuillez réessayer.", DialogType.error);
+      // Afficher l'erreur
+      showAwesomeDialog(context, e.toString(), DialogType.error);
     } finally {
       setState(() {
         _isLoading = false;
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

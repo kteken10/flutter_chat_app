@@ -1,15 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../core/utils.dart';
+
 
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  bool _validatePassword(String password) {
-    return password.length >= 6;
-  }
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   Future<String> signUpUser({
     required String email,
@@ -17,41 +11,19 @@ class AuthService {
     required String name,
   }) async {
     try {
-      if (!validateEmail(email)) {
-        return "Veuillez entrer un email valide.";
-      }
-      if (!_validatePassword(password)) {
-        return "Le mot de passe doit contenir au moins 6 caractères.";
-      }
-      if (name.isEmpty) {
-        return "Veuillez entrer un nom.";
-      }
-
-      UserCredential credential = await _auth.createUserWithEmailAndPassword(
+      final result = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      await _firestore.collection('users').doc(credential.user!.uid).set({
-        'uid': credential.user!.uid,
-        'name': name,
-        'email': email,
-        'profilePicture': '',
-        'createdAt': Timestamp.now(),
-      });
+      if (result.user != null) {
+        // Mettre à jour les informations de l'utilisateur
+        await result.user!.updateDisplayName(name);
+      }
 
       return "success";
-    } on FirebaseAuthException catch (e) {
-      switch (e.code) {
-        case 'email-already-in-use':
-          return "Cet email est déjà utilisé.";
-        case 'weak-password':
-          return "Le mot de passe est trop faible.";
-        default:
-          return e.message ?? "Erreur inconnue lors de l'inscription.";
-      }
     } catch (e) {
-      return "Une erreur s'est produite. Veuillez réessayer.";
+      rethrow;
     }
   }
 
@@ -60,34 +32,26 @@ class AuthService {
     required String password,
   }) async {
     try {
-      if (!validateEmail(email)) {
-        return "Veuillez entrer un email valide.";
-      }
-      if (!_validatePassword(password)) {
-        return "Le mot de passe doit contenir au moins 6 caractères.";
+      final result = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      if (result.user == null) {
+        throw Exception("Authentication failed");
       }
 
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
       return "success";
-    } on FirebaseAuthException catch (e) {
-      switch (e.code) {
-        case 'user-not-found':
-          return "Aucun utilisateur trouvé avec cet email.";
-        case 'wrong-password':
-          return "Mot de passe incorrect.";
-        default:
-          return e.message ?? "Erreur inconnue lors de la connexion.";
-      }
     } catch (e) {
-      return "Une erreur s'est produite. Veuillez réessayer.";
+      rethrow;
     }
   }
 
-  Future<void> logout() async {
-    await _auth.signOut();
+  Future<User?> getCurrentUser() async {
+    return _firebaseAuth.currentUser;
   }
 
-  Future<User?> getCurrentUser() async {
-    return _auth.currentUser;
+  Future<void> logout() async {
+    await _firebaseAuth.signOut();
   }
 }
