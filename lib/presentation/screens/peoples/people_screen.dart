@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/theme.dart';
 import '../../../data/providers/user_provider.dart';
 
 class PeopleScreen extends StatelessWidget {
@@ -12,8 +13,12 @@ class PeopleScreen extends StatelessWidget {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Utilisateurs')),
+      appBar: AppBar(title: const Text('Utilisateurs'),
+       backgroundColor: AppColors.backgroundColor,
+
+      ),
       body: StreamBuilder<QuerySnapshot>(
+        
         stream: userProvider.getUsersStream(), 
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -51,6 +56,7 @@ class PeopleScreen extends StatelessWidget {
           );
         },
       ),
+       backgroundColor: AppColors.backgroundColor,
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/theme.dart';
 import '../../../data/providers/auth_provider.dart';
 import '../auth/login.dart';
 
@@ -11,8 +12,11 @@ class SettingsScreen extends StatelessWidget {
     final authProvider = Provider.of<AuthProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Paramètres")),
-      body: Column(
+      appBar: AppBar(title: const Text("Paramètres"),
+       backgroundColor: AppColors.backgroundColor,
+      ),
+      body:
+       Column(
         children: [
           const ListTile(title: Text("Modifier le profil"), leading: Icon(Icons.person)),
           const ListTile(title: Text("Changer le mot de passe"), leading: Icon(Icons.lock)),
@@ -28,6 +32,7 @@ class SettingsScreen extends StatelessWidget {
           ),
         ],
       ),
+       backgroundColor: AppColors.backgroundColor,
     );
   }
 }

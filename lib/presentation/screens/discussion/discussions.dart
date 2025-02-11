@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_chat_app/core/theme.dart';
+
+import '../../ui/search_input.dart';
 
 class DiscussionsScreen extends StatelessWidget {
   const DiscussionsScreen({super.key});
@@ -8,9 +11,13 @@ class DiscussionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userId = FirebaseAuth.instance.currentUser?.uid;
+    final TextEditingController searchController = TextEditingController();  
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Discussions')),
+      appBar: AppBar(
+        title: SearchInput(controller: searchController),  
+        backgroundColor: AppColors.backgroundColor,
+      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('conversations')
@@ -58,7 +65,7 @@ class DiscussionsScreen extends StatelessWidget {
                       backgroundImage: NetworkImage(userProfilePicture),
                     ),
                     title: Text(userName),
-                    subtitle: const Text('Dernier message...'), // À remplacer par le dernier message
+                    subtitle: const Text('Dernier message...'),
                     onTap: () {
                       // Naviguer vers l'écran de chat
                     },
@@ -69,6 +76,7 @@ class DiscussionsScreen extends StatelessWidget {
           );
         },
       ),
+      backgroundColor: AppColors.backgroundColor,
     );
   }
 }

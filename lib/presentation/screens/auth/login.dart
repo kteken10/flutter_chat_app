@@ -64,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.backgroundColor,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SingleChildScrollView(
@@ -85,12 +85,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 32.0),
                 InputField(
                   controller: _emailController,
+                  height: 70,
                   label: "Email",
                   keyboardType: TextInputType.emailAddress,
                   obscureText: false,
                 ),
+                 const SizedBox(height: 24.0),
                 InputField(
                   controller: _passwordController,
+                   height: 70,
                   label: "Mot de passe",
                   keyboardType: TextInputType.text,
                   obscureText: true,
