@@ -8,6 +8,7 @@ class InputField extends StatelessWidget {
   final TextInputType keyboardType;
   final bool obscureText;
   final double? height;
+  final Widget? icon; // Nouvelle propriété pour l'icône
 
   const InputField({
     super.key,
@@ -16,6 +17,7 @@ class InputField extends StatelessWidget {
     required this.keyboardType,
     required this.obscureText,
     this.height,
+    this.icon, // Initialisation de la nouvelle propriété
   });
 
   @override
@@ -30,7 +32,7 @@ class InputField extends StatelessWidget {
         textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
           labelText: label, // Ajout du label ici
-          labelStyle: const TextStyle(color: Colors.white), // Style du label
+          labelStyle: const TextStyle(color: Colors.white, fontSize: 11), // Style du label
           fillColor: AppColors.backgroundColor,
           hoverColor: Colors.white,
           filled: true,
@@ -54,6 +56,7 @@ class InputField extends StatelessWidget {
             borderRadius: BorderRadius.circular(30.0),
           ),
           focusColor: Colors.white,
+          suffixIcon: icon, // Ajout de l'icône à l'extrémité droite du champ de saisie
         ),
       ),
     );

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:iconsax/iconsax.dart'; // Importation de IconSax
 import '../../../core/theme.dart';
 import '../../../core/utils.dart';
 import '../../../data/providers/auth_provider.dart';
 import '../../ui/button.dart';
 import '../../widget/bottom_nav.dart';
 import '../../ui/input.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -91,6 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   label: "Email",
                   keyboardType: TextInputType.emailAddress,
                   obscureText: false,
+                  icon: const Icon(Iconsax.sms, color: Colors.white,size: 18), // Icône IconSax pour l'email
                 ),
                 const SizedBox(height: 32.0),
                 InputField(
@@ -99,6 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   label: "Mot de passe",
                   keyboardType: TextInputType.text,
                   obscureText: true,
+                  icon: const Icon(Iconsax.lock, color: Colors.white,size: 18), // Icône IconSax pour le mot de passe
                 ),
                 const SizedBox(height: 32.0),
                 Bouton(

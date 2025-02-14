@@ -23,9 +23,9 @@ class Bouton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: color ?? Theme.of(context).primaryColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
+            borderRadius: BorderRadius.circular(30.0),
           ),
-          padding: const EdgeInsets.symmetric(vertical: 14.0),
+          padding: const EdgeInsets.symmetric(vertical:12),
         ),
         child: isLoading
             ? const CircularProgressIndicator(color: Colors.white)

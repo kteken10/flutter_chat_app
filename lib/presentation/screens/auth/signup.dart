@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:iconsax/iconsax.dart'; // Importation de IconSax
 import '../../../core/theme.dart';
 import '../../../core/utils.dart';
 import '../../../data/providers/auth_provider.dart';
@@ -101,6 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   label: "Nom",
                   keyboardType: TextInputType.text,
                   obscureText: false,
+                  icon: const Icon(Iconsax.user, color: Colors.white,size:18), // Icône IconSax pour le nom
                 ),
                 const SizedBox(height: 32.0),
                 InputField(
@@ -108,6 +110,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   label: "Email",
                   keyboardType: TextInputType.emailAddress,
                   obscureText: false,
+                  icon: const Icon(Iconsax.sms, color: Colors.white,size:18), // Icône IconSax pour l'email
                 ),
                 const SizedBox(height: 32.0),
                 InputField(
@@ -115,6 +118,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   label: "Mot de passe",
                   keyboardType: TextInputType.text,
                   obscureText: true,
+                  icon: const Icon(Iconsax.lock, color: Colors.white,size:18), // Icône IconSax pour le mot de passe
                 ),
                 const SizedBox(height: 32.0),
                 // Remplacer l'ElevatedButton par le composant Bouton
