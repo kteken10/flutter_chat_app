@@ -4,8 +4,10 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import '../../../core/theme.dart';
 import '../../../core/utils.dart';
 import '../../../data/providers/auth_provider.dart';
+import '../../ui/button.dart';
 import '../../widget/bottom_nav.dart';
 import '../../ui/input.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -64,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: AppColors.bottomBackColor,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SingleChildScrollView(
@@ -90,33 +92,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                   obscureText: false,
                 ),
-                 const SizedBox(height: 24.0),
+                const SizedBox(height: 32.0),
                 InputField(
                   controller: _passwordController,
-                   height: 70,
+                  height: 70,
                   label: "Mot de passe",
                   keyboardType: TextInputType.text,
                   obscureText: true,
                 ),
-                const SizedBox(height: 24.0),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _isLoading ? null : _login,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 14.0),
-                    ),
-                    child: _isLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text(
-                            "Se connecter",
-                            style: TextStyle(fontSize: 16.0, color: Colors.white),
-                          ),
-                  ),
+                const SizedBox(height: 32.0),
+                Bouton(
+                  text: "Se connecter",
+                  onPressed: _login,
+                  isLoading: _isLoading,
+                  color: AppColors.primaryColor,
                 ),
                 const SizedBox(height: 16.0),
                 TextButton(

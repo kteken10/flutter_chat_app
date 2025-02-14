@@ -30,7 +30,7 @@ class _BottomNavState extends State<BottomNav> {
 
   final List<PersistentBottomNavBarItem> _navBarItems = [
     PersistentBottomNavBarItem(
-      icon: const Icon(Iconsax.message2, size: 22), // Réduction de la taille de l'icône
+      icon: const Icon(Iconsax.message1, size: 22), // Réduction de la taille de l'icône
       title: "Discussions",
       activeColorPrimary: AppColors.primaryColor,
       inactiveColorPrimary: Colors.white,

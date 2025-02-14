@@ -4,6 +4,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import '../../../core/theme.dart';
 import '../../../core/utils.dart';
 import '../../../data/providers/auth_provider.dart';
+import '../../ui/button.dart';
 import '../../ui/input.dart';
 import '../../widget/bottom_nav.dart';
 
@@ -76,7 +77,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.bottomBackColor,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SingleChildScrollView(
@@ -101,37 +102,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   keyboardType: TextInputType.text,
                   obscureText: false,
                 ),
+                const SizedBox(height: 32.0),
                 InputField(
                   controller: _emailController,
                   label: "Email",
                   keyboardType: TextInputType.emailAddress,
                   obscureText: false,
                 ),
+                const SizedBox(height: 32.0),
                 InputField(
                   controller: _passwordController,
                   label: "Mot de passe",
                   keyboardType: TextInputType.text,
                   obscureText: true,
                 ),
-                const SizedBox(height: 24.0),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _isLoading ? null : _signUp,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 14.0),
-                    ),
-                    child: _isLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text(
-                            "S'inscrire",
-                            style: TextStyle(fontSize: 16.0, color: Colors.white),
-                          ),
-                  ),
+                const SizedBox(height: 32.0),
+                // Remplacer l'ElevatedButton par le composant Bouton
+                Bouton(
+                  text: "S'inscrire",
+                  onPressed: _isLoading ? null : _signUp,
+                  isLoading: _isLoading,
+                  color: AppColors.primaryColor,
                 ),
                 const SizedBox(height: 16.0),
                 TextButton(

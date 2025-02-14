@@ -26,30 +26,32 @@ class InputField extends StatelessWidget {
         controller: controller,
         keyboardType: keyboardType,
         obscureText: obscureText,
-        style: const TextStyle(color: Colors.black),
-        textAlignVertical: TextAlignVertical.center,  // Ceci aligne verticalement le texte au centre
+        style: const TextStyle(color: Colors.white),
+        textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
-          fillColor: AppColors.inputBackground,
+          labelText: label, // Ajout du label ici
+          labelStyle: const TextStyle(color: Colors.white), // Style du label
+          fillColor: AppColors.backgroundColor,
           hoverColor: Colors.white,
           filled: true,
-          contentPadding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 10),  // Ajustez cette valeur pour centrer le curseur
+          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
           border: OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.blue, width: 1),
-            borderRadius: BorderRadius.circular(12.0),
+            borderRadius: BorderRadius.circular(30.0),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(
-              color: AppColors.secondaryColor,
+              color: AppColors.primaryColor,
               width: 1,
             ),
-            borderRadius: BorderRadius.circular(12.0),
+            borderRadius: BorderRadius.circular(30.0),
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(
-              color: AppColors.grayFineColor,
+              color: AppColors.backgroundColor,
               width: 1,
             ),
-            borderRadius: BorderRadius.circular(12.0),
+            borderRadius: BorderRadius.circular(30.0),
           ),
           focusColor: Colors.white,
         ),
