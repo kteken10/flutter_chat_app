@@ -13,7 +13,7 @@ class SettingsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text("Paramètres"),
-       backgroundColor: AppColors.backgroundColor,
+        backgroundColor: AppColors.bottomBackColor,
       ),
       body:
        Column(
@@ -32,7 +32,7 @@ class SettingsScreen extends StatelessWidget {
           ),
         ],
       ),
-       backgroundColor: AppColors.backgroundColor,
+       backgroundColor: AppColors.bottomBackColor,
     );
   }
 }

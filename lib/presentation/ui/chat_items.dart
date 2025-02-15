@@ -29,7 +29,7 @@ class ChatItem extends StatelessWidget {
           children: [
             Text(
               userName,
-              style: const TextStyle(color: Colors.white), // Couleur du texte du nom d'utilisateur
+              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold), // Couleur du texte du nom d'utilisateur
             ),
             Text(
               messageTime,

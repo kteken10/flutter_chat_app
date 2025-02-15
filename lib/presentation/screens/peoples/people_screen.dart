@@ -14,7 +14,7 @@ class PeopleScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Utilisateurs'),
-       backgroundColor: AppColors.backgroundColor,
+       backgroundColor: AppColors.bottomBackColor,
 
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -56,7 +56,7 @@ class PeopleScreen extends StatelessWidget {
           );
         },
       ),
-       backgroundColor: AppColors.backgroundColor,
+       backgroundColor: AppColors.bottomBackColor,
     );
   }
 }
