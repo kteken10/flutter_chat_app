@@ -87,7 +87,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.2),
+                SizedBox(height: (MediaQuery.of(context).size.height * 0.2)-64),
+                 Image.asset(
+      'assets/chatlogo.png', 
+     height: 180, 
+      width: 180,
+    ),
+    const SizedBox(height: 16.0), 
                 const Text(
                   "Inscription",
                   style: TextStyle(
