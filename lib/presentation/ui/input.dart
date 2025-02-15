@@ -9,6 +9,7 @@ class InputField extends StatelessWidget {
   final bool obscureText;
   final double? height;
   final Widget? icon; // Nouvelle propriété pour l'icône
+  final Color? backgroundColor; // Nouvelle propriété pour la couleur de fond
 
   const InputField({
     super.key,
@@ -18,6 +19,7 @@ class InputField extends StatelessWidget {
     required this.obscureText,
     this.height,
     this.icon, // Initialisation de la nouvelle propriété
+    this.backgroundColor, // Initialisation de la nouvelle propriété
   });
 
   @override
@@ -33,7 +35,7 @@ class InputField extends StatelessWidget {
         decoration: InputDecoration(
           labelText: label, // Ajout du label ici
           labelStyle: const TextStyle(color: Colors.white, fontSize: 11), // Style du label
-          fillColor: AppColors.backgroundColor,
+          fillColor: backgroundColor ?? AppColors.backgroundColor, // Utilisation de la couleur de fond personnalisée ou de la couleur par défaut
           hoverColor: Colors.white,
           filled: true,
           contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),

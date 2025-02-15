@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/theme.dart';
 import 'input.dart';  
 
 class SearchInput extends StatelessWidget {
@@ -14,6 +15,8 @@ class SearchInput extends StatelessWidget {
         Expanded(
           child: SizedBox(
             child: InputField(
+              height: 30,
+              backgroundColor: AppColors.inputBackground,  // Couleur de fond personnalisée
               controller: controller,
               label: '',  // Le champ de recherche n'a pas de label
               keyboardType: TextInputType.text,
@@ -31,8 +34,8 @@ class SearchInput extends StatelessWidget {
           splashColor: const Color.fromARGB(255, 202, 207, 217),  // Couleur de l'effet de clic
           highlightColor: Colors.blue.withOpacity(0.7),  // Couleur de survol
           child: Container(
-            width: 30,  // Largeur du cercle ajustée pour mieux contenir l'icône
-            height: 30, // Hauteur du cercle (cercle parfait)
+            width: 25,  // Largeur du cercle ajustée pour mieux contenir l'icône
+            height: 25, // Hauteur du cercle (cercle parfait)
             decoration: const BoxDecoration(
               color: Colors.blue,  // Fond bleu
               shape: BoxShape.circle,  // Forme circulaire

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_chat_app/core/theme.dart';
-
+import '../../ui/chat_items.dart'; // Assurez-vous que le chemin est correct
 import '../../ui/search_input.dart';
 
 class DiscussionsScreen extends StatelessWidget {
@@ -10,73 +8,72 @@ class DiscussionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userId = FirebaseAuth.instance.currentUser?.uid;
-    final TextEditingController searchController = TextEditingController();  
+    final TextEditingController searchController = TextEditingController();
+
+    // Données aléatoires pour les conversations
+    final List<Map<String, dynamic>> conversations = [
+      {
+        'userName': 'Alice',
+        'lastMessage': 'Salut, comment ça va ?',
+        'userProfilePicture': 'https://via.placeholder.com/150',
+        'messageTime': '10:30', // Heure du message
+        'unreadCount': 3, // Nombre de messages non lus
+      },
+      {
+        'userName': 'Bob',
+        'lastMessage': 'Tu as vu le dernier film ?',
+        'userProfilePicture': 'https://via.placeholder.com/150',
+        'messageTime': '11:15', // Heure du message
+        'unreadCount': 0, // Aucun message non lu
+      },
+      {
+        'userName': 'Charlie',
+        'lastMessage': 'On se voit demain ?',
+        'userProfilePicture': 'https://via.placeholder.com/150',
+        'messageTime': '12:45', // Heure du message
+        'unreadCount': 1, // Nombre de messages non lus
+      },
+      {
+        'userName': 'Diana',
+        'lastMessage': 'Je t\'envoie le document ce soir.',
+        'userProfilePicture': 'https://via.placeholder.com/150',
+        'messageTime': '14:00', // Heure du message
+        'unreadCount': 5, // Nombre de messages non lus
+      },
+    ];
 
     return Scaffold(
       appBar: AppBar(
-        title: SearchInput(controller: searchController),  
-        backgroundColor: AppColors.backgroundColor,
+        title: SearchInput(controller: searchController),
+        backgroundColor: AppColors.bottomBackColor,
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('conversations')
-            .where('participants', arrayContains: userId)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (snapshot.hasError) {
-            return Center(child: Text('Erreur: ${snapshot.error}'));
-          }
-
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text('Aucune conversation trouvée.'));
-          }
-
-          final conversations = snapshot.data!.docs;
-
-          return ListView.builder(
-            itemCount: conversations.length,
-            itemBuilder: (context, index) {
-              final conversation = conversations[index];
-              final participants = conversation['participants'] as List<dynamic>;
-              final otherUserId = participants.firstWhere((id) => id != userId);
-
-              return FutureBuilder<DocumentSnapshot>(
-                future: FirebaseFirestore.instance.collection('users').doc(otherUserId).get(),
-                builder: (context, userSnapshot) {
-                  if (userSnapshot.connectionState == ConnectionState.waiting) {
-                    return const ListTile(title: Text('Chargement...'));
-                  }
-
-                  if (userSnapshot.hasError || !userSnapshot.hasData) {
-                    return const ListTile(title: Text('Utilisateur inconnu'));
-                  }
-
-                  final user = userSnapshot.data!;
-                  final userName = user['name'];
-                  final userProfilePicture = user['profilePicture'];
-
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(userProfilePicture),
-                    ),
-                    title: Text(userName),
-                    subtitle: const Text('Dernier message...'),
-                    onTap: () {
-                      // Naviguer vers l'écran de chat
-                    },
-                  );
-                },
-              );
-            },
-          );
-        },
+      body: Column(
+        children: [
+          const SizedBox(height: 4),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16.0),
+            height: 1, // Épaisseur de la bordure
+            color: AppColors.inputBackground, // Couleur de la bordure
+          ),
+          const SizedBox(height: 32),
+          Expanded(
+            child: ListView.builder(
+              itemCount: conversations.length,
+              itemBuilder: (context, index) {
+                final conversation = conversations[index];
+                return ChatItem(
+                  userName: conversation['userName']!,
+                  lastMessage: conversation['lastMessage']!,
+                  userProfilePicture: conversation['userProfilePicture']!,
+                  messageTime: conversation['messageTime']!,
+                  unreadCount: conversation['unreadCount'], // Nombre de messages non lus
+                );
+              },
+            ),
+          ),
+        ],
       ),
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: AppColors.bottomBackColor,
     );
   }
 }

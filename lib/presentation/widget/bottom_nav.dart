@@ -63,14 +63,30 @@ class _BottomNavState extends State<BottomNav> {
 
   @override
   Widget build(BuildContext context) {
-    return PersistentTabView(
-      context,
-      controller: _controller,
-      screens: _screens,
-      items: _navBarItems,
-      navBarStyle: NavBarStyle.style6,
-      backgroundColor: AppColors.bottomBackColor,
-      padding: const EdgeInsets.only(bottom: 8, top: 8),
+    return Stack(
+      children: [
+        // Barre de navigation
+        PersistentTabView(
+          context,
+          controller: _controller,
+          screens: _screens,
+          items: _navBarItems,
+          navBarStyle: NavBarStyle.style6,
+          backgroundColor: AppColors.bottomBackColor,
+          padding: const EdgeInsets.only(bottom: 8, top: 8),
+        ),
+
+        // Bordure supérieure avec marge
+        Positioned(
+          bottom: 78,
+          left: 16.0, // Marge à gauche
+          right: 16.0, // Marge à droite
+          child: Container(
+            height: 1, // Épaisseur de la bordure
+            color: AppColors.inputBackground, // Couleur de la bordure
+          ),
+        ),
+      ],
     );
   }
 }
