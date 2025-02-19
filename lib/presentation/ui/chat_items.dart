@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/theme.dart';
+
 // Enum pour représenter les différents statuts du message
 enum MessageStatus {
   sent, // Message envoyé mais non livré
@@ -86,9 +88,9 @@ class ChatItem extends StatelessWidget {
           },
         ),
         const Divider(
-          height: 1,
-          color: Colors.grey, // Couleur du trait de séparation
-          thickness: 0.5, // Épaisseur du trait de séparation
+          height: 4,
+          color: AppColors.inputBackground, // Couleur du trait de séparation
+          thickness: 0.2, // Épaisseur du trait de séparation
           indent: 84, // Ajuster le décalage pour correspondre à la nouvelle taille de l'avatar
         ),
       ],

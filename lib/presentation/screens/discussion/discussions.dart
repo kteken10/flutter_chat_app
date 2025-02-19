@@ -56,10 +56,10 @@ class DiscussionsScreen extends StatelessWidget {
           const SizedBox(height: 4),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 16.0),
-            height: 1, 
+            height: 0.5, 
             color: AppColors.inputBackground, 
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 8),
           Expanded(
             child: ListView.builder(
               itemCount: conversations.length,

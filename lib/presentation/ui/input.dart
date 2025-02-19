@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../core/theme.dart';
 
 class InputField extends StatelessWidget {
@@ -8,8 +7,9 @@ class InputField extends StatelessWidget {
   final TextInputType keyboardType;
   final bool obscureText;
   final double? height;
-  final Widget? icon; // Nouvelle propriété pour l'icône
-  final Color? backgroundColor; // Nouvelle propriété pour la couleur de fond
+  final Widget? icon;
+  final Widget? prefixIcon;
+  final Color? backgroundColor;
 
   const InputField({
     super.key,
@@ -18,47 +18,46 @@ class InputField extends StatelessWidget {
     required this.keyboardType,
     required this.obscureText,
     this.height,
-    this.icon, // Initialisation de la nouvelle propriété
-    this.backgroundColor, // Initialisation de la nouvelle propriété
+    this.icon,
+    this.prefixIcon,
+    this.backgroundColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height ?? 50,
+      height: height ?? 20,
       child: TextFormField(
         controller: controller,
+        cursorColor: Colors.white,
+        cursorWidth: 1,
+        cursorHeight: 10,
         keyboardType: keyboardType,
         obscureText: obscureText,
         style: const TextStyle(color: Colors.white),
-        textAlignVertical: TextAlignVertical.center,
+       
+        textAlignVertical: TextAlignVertical.center, // Centre le texte et le curseur
         decoration: InputDecoration(
-          labelText: label, // Ajout du label ici
-          labelStyle: const TextStyle(color: Colors.white, fontSize: 11), // Style du label
-          fillColor: backgroundColor ?? AppColors.backgroundColor, // Utilisation de la couleur de fond personnalisée ou de la couleur par défaut
-          hoverColor: Colors.white,
+          labelText: label,
+          labelStyle: const TextStyle(color: Colors.white, fontSize: 11),
+          fillColor: backgroundColor ?? AppColors.backgroundColor,
           filled: true,
-          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+          isDense: true, // Réduit l’espace vertical interne
+          contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15), // Ajustement vertical
           border: OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.blue, width: 1),
             borderRadius: BorderRadius.circular(30.0),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: AppColors.primaryColor,
-              width: 1,
-            ),
+            borderSide: const BorderSide(color: AppColors.primaryColor, width: 1),
             borderRadius: BorderRadius.circular(30.0),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: AppColors.backgroundColor,
-              width: 1,
-            ),
+            borderSide: const BorderSide(color: AppColors.backgroundColor, width: 1),
             borderRadius: BorderRadius.circular(30.0),
           ),
-          focusColor: Colors.white,
-          suffixIcon: icon, // Ajout de l'icône à l'extrémité droite du champ de saisie
+          prefixIcon: prefixIcon,
+          suffixIcon: icon,
         ),
       ),
     );

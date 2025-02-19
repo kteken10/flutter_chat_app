@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/theme.dart';
-import 'input.dart';  
+import 'input.dart';
 
 class SearchInput extends StatelessWidget {
   final TextEditingController controller;
@@ -10,41 +10,39 @@ class SearchInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,  // Garder les éléments à gauche
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Expanded(
-          child: SizedBox(
-            child: InputField(
-              height: 30,
-              backgroundColor: AppColors.inputBackground,  // Couleur de fond personnalisée
-              controller: controller,
-              label: '',  // Le champ de recherche n'a pas de label
-              keyboardType: TextInputType.text,
-              obscureText: false,
-            ),
+          child: InputField(
+            height: 30,
+            backgroundColor: AppColors.inputBackground,
+            controller: controller,
+            label: '',
+            keyboardType: TextInputType.text,
+            obscureText: false,
+            prefixIcon: const Icon(Icons.search, color: Colors.grey,size: 26), // Icône de recherche à gauche
           ),
         ),
-        const SizedBox(width: 16),  // Ajouter un espace de 10px entre le champ et l'icône
+        const SizedBox(width: 10), // Espacement entre l'input et l'icône "+"
         InkWell(
           onTap: () {
-            // Action pour l'icône '+'
-            // Vous pouvez définir l'action ici
+            // Action pour l'icône "+"
           },
-          borderRadius: BorderRadius.circular(30), // S'assurer que l'effet reste circulaire
-          splashColor: const Color.fromARGB(255, 202, 207, 217),  // Couleur de l'effet de clic
-          highlightColor: Colors.blue.withOpacity(0.7),  // Couleur de survol
+          borderRadius: BorderRadius.circular(30),
+          splashColor: const Color.fromARGB(255, 202, 207, 217),
+          highlightColor: Colors.blue.withOpacity(0.7),
           child: Container(
-            width: 25,  // Largeur du cercle ajustée pour mieux contenir l'icône
-            height: 25, // Hauteur du cercle (cercle parfait)
+            width: 30,
+            height: 30,
             decoration: const BoxDecoration(
-              color: Colors.blue,  // Fond bleu
-              shape: BoxShape.circle,  // Forme circulaire
+              color: Colors.blue,
+              shape: BoxShape.circle,
             ),
-            child: const Center(  // Centrer l'icône à l'intérieur du cercle
+            child: const Center(
               child: Icon(
                 Icons.add,
                 color: Colors.white,
-                size: 20,  // Taille ajustée de l'icône
+                size: 20,
               ),
             ),
           ),
