@@ -41,7 +41,8 @@ class ChatItem extends StatelessWidget {
             children: [
               Text(
                 userName,
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold),
               ),
               Text(
                 messageTime,
@@ -64,20 +65,30 @@ class ChatItem extends StatelessWidget {
               ),
               // Afficher l'icône de statut du message
               _buildMessageStatusIcon(messageStatus),
-              if (unreadCount > 0) // Affiche le badge uniquement s'il y a des messages non lus
+              if (unreadCount >
+                  0) // Affiche le badge uniquement s'il y a des messages non lus
                 Container(
-                  margin: const EdgeInsets.only(left: 4), // Espace entre le message et le badge
+                  margin: const EdgeInsets.only(
+                      left: 4), // Espace entre le message et le badge
                   padding: const EdgeInsets.all(4), // Rembourrage du badge
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.red, // Couleur du badge
-                    borderRadius: BorderRadius.circular(30), // Bord arrondi
+                    shape: BoxShape.circle, // Forme circulaire
                   ),
-                  child: Text(
-                    unreadCount.toString(),
-                    style: const TextStyle(
-                      fontSize: 10,
-                      color: Colors.white, // Couleur du texte
-                      fontWeight: FontWeight.bold,
+                  constraints: const BoxConstraints(
+                    minWidth:
+                        20, // Largeur minimale pour éviter que le cercle ne soit trop petit
+                    minHeight:
+                        20, // Hauteur minimale pour éviter que le cercle ne soit trop petit
+                  ),
+                  child: Center(
+                    child: Text(
+                      unreadCount.toString(),
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: Colors.white, // Couleur du texte
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -91,7 +102,8 @@ class ChatItem extends StatelessWidget {
           height: 4,
           color: AppColors.inputBackground, // Couleur du trait de séparation
           thickness: 0.2, // Épaisseur du trait de séparation
-          indent: 84, // Ajuster le décalage pour correspondre à la nouvelle taille de l'avatar
+          indent:
+              84, // Ajuster le décalage pour correspondre à la nouvelle taille de l'avatar
         ),
       ],
     );

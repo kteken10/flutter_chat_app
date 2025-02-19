@@ -4,7 +4,6 @@ import 'package:iconsax/iconsax.dart';
 import '../../core/theme.dart';
 import '../screens/call/calls_screen.dart';
 import '../screens/discussion/discussions.dart';
-import '../screens/peoples/people_screen.dart';
 import '../screens/settings/settings_screen.dart';
 import '../screens/stories/stories_screen.dart';
 
@@ -24,7 +23,7 @@ class _BottomNavState extends State<BottomNav> {
     const DiscussionsScreen(),
     const StoriesScreen(),
     const CallsScreen(),
-    const PeopleScreen(),
+   
     const SettingsScreen(),
   ];
 
@@ -47,12 +46,7 @@ class _BottomNavState extends State<BottomNav> {
       activeColorPrimary: AppColors.primaryColor,
       inactiveColorPrimary: Colors.white,
     ),
-    PersistentBottomNavBarItem(
-      icon: const Icon(Iconsax.people, size: 22), // Réduction de la taille de l'icône
-      title: "People",
-      activeColorPrimary: AppColors.primaryColor,
-      inactiveColorPrimary: Colors.white,
-    ),
+    
     PersistentBottomNavBarItem(
       icon: const Icon(Iconsax.setting1, size: 22), // Réduction de la taille de l'icône
       title: "Paramètres",

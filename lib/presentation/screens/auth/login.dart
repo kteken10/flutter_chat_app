@@ -39,6 +39,9 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
+
+
+
     try {
       // Appeler la méthode login de AuthProvider
       await Provider.of<AuthProvider>(context, listen: false).login(
@@ -46,7 +49,8 @@ class _LoginScreenState extends State<LoginScreen> {
         password: password,
       );
 
-      // Afficher un message de succès
+
+  // Afficher un message de succès
       showAwesomeDialog(context, "Connexion réussie !", DialogType.success);
 
       // Rediriger vers l'écran principal
@@ -76,7 +80,8 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: (MediaQuery.of(context).size.height * 0.2)-64),
+                
+      SizedBox(height: (MediaQuery.of(context).size.height * 0.2)-64),
                  Image.asset(
       'assets/chatlogo.png',
       height: 180, 
