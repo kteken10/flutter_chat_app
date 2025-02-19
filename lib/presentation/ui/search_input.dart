@@ -15,6 +15,7 @@ class SearchInput extends StatelessWidget {
         Expanded(
           child: InputField(
             height: 30,
+            borderRadius: 8,
             backgroundColor: AppColors.inputBackground,
             controller: controller,
             label: '',

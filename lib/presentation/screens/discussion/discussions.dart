@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/core/theme.dart';
 import '../../ui/chat_items.dart';
 import '../../ui/search_input.dart';
+import '../../widget/section_tab.dart';
 
 class DiscussionsScreen extends StatelessWidget {
   const DiscussionsScreen({super.key});
@@ -46,44 +47,43 @@ class DiscussionsScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-     appBar: AppBar(
- 
-  actions: [
-    // Icône de l'intelligence artificielle
-    IconButton(
-      icon: Icon(Icons.adb, color: Colors.green), // Icône pour l'IA
-      onPressed: () {
-        // Action pour l'icône IA
-      },
-    ),
-    // Icône "Plus" avec un fond bleu
-    InkWell(
-      onTap: () {
-        // Action pour l'icône "+"
-      },
-      borderRadius: BorderRadius.circular(30),
-      splashColor: const Color.fromARGB(255, 202, 207, 217),
-      highlightColor: Colors.blue.withOpacity(0.7),
-      child: Container(
-        width: 25,
-        height: 25,
-        decoration: const BoxDecoration(
-          color: Colors.blue, // Fond bleu
-          shape: BoxShape.circle,
-        ),
-        child: const Center(
-          child: Icon(
-            Icons.add,
-            color: Colors.white, // Icône blanche
-            size: 20,
+      appBar: AppBar(
+        actions: [
+          // Icône de l'intelligence artificielle
+          IconButton(
+            icon: const Icon(Icons.adb, color: Colors.green), // Icône pour l'IA
+            onPressed: () {
+              // Action pour l'icône IA
+            },
           ),
-        ),
+          // Icône "Plus" avec un fond bleu
+          InkWell(
+            onTap: () {
+              // Action pour l'icône "+"
+            },
+            borderRadius: BorderRadius.circular(30),
+            splashColor: const Color.fromARGB(255, 202, 207, 217),
+            highlightColor: AppColors.primaryColor,
+            child: Container(
+              width: 25,
+              height: 25,
+              decoration: const BoxDecoration(
+                color: AppColors.primaryColor,
+                shape: BoxShape.circle,
+              ),
+              child: const Center(
+                child: Icon(
+                  Icons.add,
+                  color: Colors.white, // Icône blanche
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 16), // Espacement entre les icônes et le bord droit
+        ],
+        backgroundColor: AppColors.bottomBackColor,
       ),
-    ),
-    const SizedBox(width: 16), // Espacement entre les icônes et le bord droit
-  ],
-  backgroundColor: AppColors.bottomBackColor,
-),
       body: Column(
         children: [
           // Deuxième ligne : Texte "WeeChax"
@@ -96,7 +96,7 @@ class DiscussionsScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -106,13 +106,15 @@ class DiscussionsScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: SearchInput(controller: searchController),
           ),
-          // Séparateur
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16.0),
-            height: 0.5,
-            color: AppColors.inputBackground,
+          // SectionTab : Onglets de filtrage
+          SectionTab(
+            tabs: const ["Toutes", "Non lues", "Favoris", "Groupes"], // Liste des onglets
+            onTabSelected: (index) {
+              
+              print("Onglet sélectionné : $index");
+            },
           ),
-          // Liste des conversations
+         
           Expanded(
             child: ListView.builder(
               itemCount: conversations.length,
