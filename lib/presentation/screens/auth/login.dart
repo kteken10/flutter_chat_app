@@ -13,6 +13,7 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginScreenState createState() => _LoginScreenState();
 }
 
@@ -80,8 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
       'assets/chatlogo.png',
       height: 180, 
       width: 180,
-     
-    ),
+      ),
     const SizedBox(height: 16.0), 
                 const Text(
                   "Connexion",
@@ -107,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   label: "Mot de passe",
                   keyboardType: TextInputType.text,
                   obscureText: true,
-                  icon: const Icon(Iconsax.lock, color: Colors.white,size: 18), // Icône IconSax pour le mot de passe
+                  icon: const Icon(Iconsax.lock, color: Colors.white,size: 18), 
                 ),
                 const SizedBox(height: 32.0),
                 Bouton(

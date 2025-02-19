@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/core/theme.dart';
-import '../../ui/chat_items.dart'; // Assurez-vous que le chemin est correct
+import '../../ui/chat_items.dart';
 import '../../ui/search_input.dart';
 
 class DiscussionsScreen extends StatelessWidget {
@@ -10,35 +10,39 @@ class DiscussionsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController searchController = TextEditingController();
 
-    // Données aléatoires pour les conversations
+  
     final List<Map<String, dynamic>> conversations = [
       {
         'userName': 'Alice',
         'lastMessage': 'Salut, comment ça va ?',
         'userProfilePicture': 'https://via.placeholder.com/150',
-        'messageTime': '10:30', // Heure du message
-        'unreadCount': 3, // Nombre de messages non lus
+        'messageTime': '10:30',
+        'unreadCount': 3, 
+        'messageStatus': MessageStatus.read, 
       },
       {
         'userName': 'Bob',
         'lastMessage': 'Tu as vu le dernier film ?',
         'userProfilePicture': 'https://via.placeholder.com/150',
-        'messageTime': '11:15', // Heure du message
-        'unreadCount': 0, // Aucun message non lu
+        'messageTime': '11:15', 
+        'unreadCount': 0, 
+        'messageStatus': MessageStatus.delivered, 
       },
       {
         'userName': 'Charlie',
         'lastMessage': 'On se voit demain ?',
         'userProfilePicture': 'https://via.placeholder.com/150',
-        'messageTime': '12:45', // Heure du message
-        'unreadCount': 1, // Nombre de messages non lus
+        'messageTime': '12:45',
+        'unreadCount': 1,
+        'messageStatus': MessageStatus.sent,
       },
       {
         'userName': 'Diana',
         'lastMessage': 'Je t\'envoie le document ce soir.',
         'userProfilePicture': 'https://via.placeholder.com/150',
-        'messageTime': '14:00', // Heure du message
-        'unreadCount': 5, // Nombre de messages non lus
+        'messageTime': '14:00', 
+        'unreadCount': 5, 
+        'messageStatus': MessageStatus.read,
       },
     ];
 
@@ -52,8 +56,8 @@ class DiscussionsScreen extends StatelessWidget {
           const SizedBox(height: 4),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 16.0),
-            height: 1, // Épaisseur de la bordure
-            color: AppColors.inputBackground, // Couleur de la bordure
+            height: 1, 
+            color: AppColors.inputBackground, 
           ),
           const SizedBox(height: 32),
           Expanded(
@@ -66,7 +70,8 @@ class DiscussionsScreen extends StatelessWidget {
                   lastMessage: conversation['lastMessage']!,
                   userProfilePicture: conversation['userProfilePicture']!,
                   messageTime: conversation['messageTime']!,
-                  unreadCount: conversation['unreadCount'], // Nombre de messages non lus
+                  unreadCount: conversation['unreadCount'], 
+                  messageStatus: conversation['messageStatus'], 
                 );
               },
             ),
