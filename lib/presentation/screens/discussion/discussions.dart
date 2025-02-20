@@ -1,11 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/core/theme.dart';
 import '../../ui/chat_items.dart';
+import '../../ui/modal_options.dart';
 import '../../ui/search_input.dart';
 import '../../widget/section_tab.dart';
 
+
 class DiscussionsScreen extends StatelessWidget {
   const DiscussionsScreen({super.key});
+
+  // Méthode pour afficher la modale
+void _showModalOptions(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true, // Permet à la modale de prendre tout l'espace disponible
+    backgroundColor: Colors.transparent, // Fond transparent pour éviter les bordures
+    builder: (context) {
+      return Scaffold(
+        backgroundColor: Colors.transparent, // Fond transparent
+        body: Container(
+          height: MediaQuery.of(context).size.height, // Prend toute la hauteur de l'écran
+          decoration: const BoxDecoration(
+            color: AppColors.bottomBackColor, // Couleur de fond de la modale
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: ModalOptions(
+            onOptionSelected: (option) {
+              print('Option sélectionnée : $option');
+            },
+            onUserSelected: (userName) {
+              print('Utilisateur sélectionné : $userName');
+            },
+          ),
+        ),
+      );
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -49,22 +80,34 @@ class DiscussionsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          // Icône de l'intelligence artificielle
           IconButton(
-            icon: const Icon(Icons.adb, color: Colors.green), // Icône pour l'IA
-            onPressed: () {
-              // Action pour l'icône IA
-            },
-          ),
-          // Icône "Plus" avec un fond bleu
-          InkWell(
-            onTap: () {
-              // Action pour l'icône "+"
-            },
-            borderRadius: BorderRadius.circular(30),
+            icon: Container(
+              width: 25,
+              height: 25,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+              ),
+              child: const Center(
+                child: Icon(
+                  Icons.adb,
+                  color: Colors.white,
+                  size: 24,
+                ),
+              ),
+            ),
             splashColor: const Color.fromARGB(255, 202, 207, 217),
             highlightColor: AppColors.primaryColor,
-            child: Container(
+            onPressed: () {
+              // Action pour l'autre bouton
+            },
+          ),
+          IconButton(
+            onPressed: () {
+              _showModalOptions(context); // Ouvre la modale
+            },
+            iconSize: 25,
+            padding: EdgeInsets.zero,
+            icon: Container(
               width: 25,
               height: 25,
               decoration: const BoxDecoration(
@@ -74,19 +117,20 @@ class DiscussionsScreen extends StatelessWidget {
               child: const Center(
                 child: Icon(
                   Icons.add,
-                  color: Colors.white, // Icône blanche
+                  color: Colors.white,
                   size: 20,
                 ),
               ),
             ),
+            splashColor: const Color.fromARGB(255, 202, 207, 217),
+            highlightColor: AppColors.primaryColor,
           ),
-          const SizedBox(width: 16), // Espacement entre les icônes et le bord droit
+          const SizedBox(width: 16),
         ],
         backgroundColor: AppColors.bottomBackColor,
       ),
       body: Column(
         children: [
-          // Deuxième ligne : Texte "WeeChax"
           const Padding(
             padding: EdgeInsets.only(left: 16.0),
             child: Align(
@@ -101,20 +145,16 @@ class DiscussionsScreen extends StatelessWidget {
               ),
             ),
           ),
-          // Troisième ligne : Champ de recherche
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: SearchInput(controller: searchController),
           ),
-          // SectionTab : Onglets de filtrage
           SectionTab(
-            tabs: const ["Toutes", "Non lues", "Favoris", "Groupes"], // Liste des onglets
+            tabs: const ["Toutes", "Non lues", "Favoris", "Groupes"],
             onTabSelected: (index) {
-              
               print("Onglet sélectionné : $index");
             },
           ),
-         
           Expanded(
             child: ListView.builder(
               itemCount: conversations.length,
