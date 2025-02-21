@@ -4,81 +4,116 @@ import '../../ui/chat_items.dart';
 import '../../ui/modal_options.dart';
 import '../../ui/search_input.dart';
 import '../../widget/section_tab.dart';
+import 'chat.dart';
 
-
-class DiscussionsScreen extends StatelessWidget {
+class DiscussionsScreen extends StatefulWidget {
   const DiscussionsScreen({super.key});
 
-  // Méthode pour afficher la modale
-void _showModalOptions(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true, // Permet à la modale de prendre tout l'espace disponible
-    backgroundColor: Colors.transparent, // Fond transparent pour éviter les bordures
-    builder: (context) {
-      return Scaffold(
-        backgroundColor: Colors.transparent, // Fond transparent
-        body: Container(
-          height: MediaQuery.of(context).size.height, // Prend toute la hauteur de l'écran
-          decoration: const BoxDecoration(
-            color: AppColors.bottomBackColor, // Couleur de fond de la modale
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: ModalOptions(
-            onOptionSelected: (option) {
-              print('Option sélectionnée : $option');
-            },
-            onUserSelected: (userName) {
-              print('Utilisateur sélectionné : $userName');
-            },
-          ),
-        ),
-      );
-    },
-  );
+  @override
+  State<DiscussionsScreen> createState() => _DiscussionsScreenState();
 }
+
+class _DiscussionsScreenState extends State<DiscussionsScreen> {
+  final TextEditingController searchController = TextEditingController();
+
+  final List<Map<String, dynamic>> conversations = [
+    {
+      'userName': 'Alice',
+      'lastMessage': 'Salut, comment ça va ?',
+      'userProfilePicture': 'https://via.placeholder.com/150',
+      'messageTime': '10:30',
+      'unreadCount': 3,
+      'messageStatus': MessageStatus.read,
+    },
+    {
+      'userName': 'Bob',
+      'lastMessage': 'Tu as vu le dernier film ?',
+      'userProfilePicture': 'https://via.placeholder.com/150',
+      'messageTime': '11:15',
+      'unreadCount': 0,
+      'messageStatus': MessageStatus.delivered,
+    },
+    {
+      'userName': 'Charlie',
+      'lastMessage': 'On se voit demain ?',
+      'userProfilePicture': 'https://via.placeholder.com/150',
+      'messageTime': '12:45',
+      'unreadCount': 1,
+      'messageStatus': MessageStatus.sent,
+    },
+    {
+      'userName': 'Diana',
+      'lastMessage': 'Je t\'envoie le document ce soir.',
+      'userProfilePicture': 'https://via.placeholder.com/150',
+      'messageTime': '14:00',
+      'unreadCount': 5,
+      'messageStatus': MessageStatus.read,
+    },
+  ];
+
+  // Méthode pour afficher la modale
+  void _showModalOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Container(
+            height: MediaQuery.of(context).size.height,
+            decoration: const BoxDecoration(
+              color: AppColors.bottomBackColor,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            ),
+            child: ModalOptions(
+              onOptionSelected: (option) {
+                print('Option sélectionnée : $option');
+              },
+              onUserSelected: (userName, userProfilePicture) {
+                // Ferme la modale
+                Navigator.pop(context);
+
+                // Ajoute une nouvelle conversation
+                _addNewConversation(userName, userProfilePicture);
+
+                // Redirige vers l'écran de chat
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatScreen(
+                      userName: userName,
+                      userProfilePicture: userProfilePicture,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // Méthode pour ajouter une nouvelle conversation
+  void _addNewConversation(String userName, String userProfilePicture) {
+    setState(() {
+      conversations.insert(0, {
+        'userName': userName,
+        'lastMessage': 'Nouvelle conversation',
+        'userProfilePicture': userProfilePicture,
+        'messageTime': 'Maintenant',
+        'unreadCount': 1,
+        'messageStatus': MessageStatus.sent,
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController searchController = TextEditingController();
-
-    final List<Map<String, dynamic>> conversations = [
-      {
-        'userName': 'Alice',
-        'lastMessage': 'Salut, comment ça va ?',
-        'userProfilePicture': 'https://via.placeholder.com/150',
-        'messageTime': '10:30',
-        'unreadCount': 3,
-        'messageStatus': MessageStatus.read,
-      },
-      {
-        'userName': 'Bob',
-        'lastMessage': 'Tu as vu le dernier film ?',
-        'userProfilePicture': 'https://via.placeholder.com/150',
-        'messageTime': '11:15',
-        'unreadCount': 0,
-        'messageStatus': MessageStatus.delivered,
-      },
-      {
-        'userName': 'Charlie',
-        'lastMessage': 'On se voit demain ?',
-        'userProfilePicture': 'https://via.placeholder.com/150',
-        'messageTime': '12:45',
-        'unreadCount': 1,
-        'messageStatus': MessageStatus.sent,
-      },
-      {
-        'userName': 'Diana',
-        'lastMessage': 'Je t\'envoie le document ce soir.',
-        'userProfilePicture': 'https://via.placeholder.com/150',
-        'messageTime': '14:00',
-        'unreadCount': 5,
-        'messageStatus': MessageStatus.read,
-      },
-    ];
-
     return Scaffold(
       appBar: AppBar(
+        
         actions: [
           IconButton(
             icon: Container(
@@ -167,6 +202,18 @@ void _showModalOptions(BuildContext context) {
                   messageTime: conversation['messageTime']!,
                   unreadCount: conversation['unreadCount'],
                   messageStatus: conversation['messageStatus'],
+                  onTap: () {
+                    // Naviguer vers l'écran de chat
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChatScreen(
+                          userName: conversation['userName']!,
+                          userProfilePicture: conversation['userProfilePicture']!,
+                        ),
+                      ),
+                    );
+                  },
                 );
               },
             ),

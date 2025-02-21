@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../core/theme.dart';
 
 // Enum pour représenter les différents statuts du message
@@ -16,6 +15,7 @@ class ChatItem extends StatelessWidget {
   final String messageTime; // Heure du dernier message
   final int unreadCount; // Nombre de messages non lus
   final MessageStatus messageStatus; // Statut du message
+  final VoidCallback onTap; // Callback pour gérer le clic sur l'élément
 
   const ChatItem({
     super.key,
@@ -25,6 +25,7 @@ class ChatItem extends StatelessWidget {
     required this.messageTime,
     this.unreadCount = 0, // Par défaut, aucun message non lu
     required this.messageStatus, // Statut du message
+    required this.onTap, // Callback pour gérer le clic
   });
 
   @override
@@ -94,9 +95,7 @@ class ChatItem extends StatelessWidget {
                 ),
             ],
           ),
-          onTap: () {
-            // Naviguer vers l'écran de chat
-          },
+          onTap: onTap, // Utilisation du callback onTap
         ),
         const Divider(
           height: 4,

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import '../screens/discussion/chat.dart';
 import 'search_input.dart'; // Importez le composant de recherche
 
 class ModalOptions extends StatefulWidget {
   final Function(String) onOptionSelected;
-  final Function(String) onUserSelected;
+  final Function(String, String) onUserSelected; // Ajout de la photo de profil
 
   const ModalOptions({
     super.key,
@@ -176,8 +177,17 @@ class _ModalOptionsState extends State<ModalOptions> {
                     style: const TextStyle(color: Colors.white),
                   ),
                   onTap: () {
-                    widget.onUserSelected(user['name']!); // Appel de la callback
-                    Navigator.pop(context); // Ferme la modale
+                 Navigator.pop(context); // Ferme la modale
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChatScreen(
+                          userName: user['name']!,
+                          userProfilePicture: user['profilePicture']!,
+                        ),
+                      ),
+                    );
+                  
                   },
                 );
               },

@@ -1,12 +1,11 @@
-// lib/root.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../data/providers/auth_provider.dart';
+import '../../data/providers/bottom_nav_provider.dart';
 import '../../data/providers/user_provider.dart';
 import '../screens/auth/login.dart';
 import '../screens/auth/signup.dart';
 import '../widget/bottom_nav.dart';
-
 class Root extends StatelessWidget {
   const Root({super.key});
 
@@ -16,6 +15,7 @@ class Root extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => BottomNavProvider()), 
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
