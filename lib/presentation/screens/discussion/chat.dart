@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme.dart';
-
+import '../../widget/header_chat.dart';
+import '../../widget/message_bubble.dart';
+import '../../widget/send_zone.dart';
 
 class ChatScreen extends StatefulWidget {
-  final String userName; // Nom de l'utilisateur avec qui on discute
-  final String userProfilePicture; // Photo de profil de l'utilisateur
+  final String userName;
+  final String userProfilePicture;
 
   const ChatScreen({
     super.key,
@@ -13,14 +15,15 @@ class ChatScreen extends StatefulWidget {
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _ChatScreenState createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
-  final List<Map<String, String>> _messages = []; // Liste des messages
+  final List<Map<String, String>> _messages = [];
 
-  // Méthode pour envoyer un message
+  // Méthode pour envoyer un message texte
   void _sendMessage() {
     final String messageText = _messageController.text.trim();
     if (messageText.isNotEmpty) {
@@ -28,31 +31,36 @@ class _ChatScreenState extends State<ChatScreen> {
         _messages.add({
           'text': messageText,
           'sender': 'me', // 'me' pour l'utilisateur actuel
-          'time': DateTime.now().toString(),
+          'time': _formatTime(DateTime.now()), // Ajout de l'horodatage
         });
       });
       _messageController.clear();
     }
   }
 
+  // Méthode pour sélectionner un média ou un fichier
+  void _sendMedia() {
+    // Implémentez la logique pour sélectionner un média ou un fichier
+    print('Média ou fichier sélectionné');
+  }
+
+  // Méthode pour enregistrer et envoyer un message vocal
+  void _sendVoice() {
+    // Implémentez la logique pour enregistrer et envoyer un message vocal
+    print('Message vocal envoyé');
+  }
+
+  // Méthode pour formater l'heure
+  String _formatTime(DateTime dateTime) {
+    return '${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            CircleAvatar(
-              backgroundImage: NetworkImage(widget.userProfilePicture),
-            ),
-            const SizedBox(width: 10),
-            Text(
-              widget.userName,
-              style: const TextStyle(color: Colors.white),
-            ),
-          ],
-        ),
-        backgroundColor: AppColors.bottomBackColor,
-        iconTheme: const IconThemeData(color: Colors.white),
+      appBar: HeaderChat(
+        userName: widget.userName,
+        userProfilePicture: widget.userProfilePicture,
       ),
       body: Column(
         children: [
@@ -62,59 +70,21 @@ class _ChatScreenState extends State<ChatScreen> {
               itemCount: _messages.length,
               itemBuilder: (context, index) {
                 final message = _messages[index];
-                final bool isMe = message['sender'] == 'me';
-
-                return Align(
-                  alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 4, horizontal: 8),
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: isMe ? AppColors.primaryColor : Colors.grey[800],
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      message['text']!,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ),
+                return MessageBubble(
+                  text: message['text']!,
+                  isMe: message['sender'] == 'me',
+                  time: message['time']!, // Ajout de l'horodatage
                 );
               },
             ),
           ),
 
-          // Champ de saisie pour envoyer un message
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: AppColors.bottomBackColor,
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _messageController,
-                    decoration: InputDecoration(
-                      hintText: 'Écrire un message...',
-                      hintStyle: const TextStyle(color: Colors.white54),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      fillColor: AppColors.inputBackground,
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 12),
-                    ),
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                IconButton(
-                  onPressed: _sendMessage,
-                  icon: const Icon(Icons.send, color: Colors.white),
-                ),
-              ],
-            ),
+          // Zone de saisie et d'envoi de message
+          SendZone(
+            messageController: _messageController,
+            onSendMessage: _sendMessage,
+            onSendMedia: _sendMedia,
+            onSendVoice: _sendVoice,
           ),
         ],
       ),

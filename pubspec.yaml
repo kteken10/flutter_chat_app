@@ -44,6 +44,7 @@ dependencies:
   fluttertoast: ^8.2.11
   awesome_dialog: ^3.2.1
   flutter_animate: ^4.5.2
+  chat_bubbles: ^1.7.0
   
 
 dev_dependencies:
