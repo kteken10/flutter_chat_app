@@ -3,11 +3,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import '../../../core/theme.dart';
 import '../ui/input.dart';
-
+import 'media_selection_modal.dart'; 
 class SendZone extends StatefulWidget {
   final TextEditingController messageController;
   final VoidCallback onSendMessage;
-  final Function(String) onSendMedia; // Callback pour envoyer le chemin du média
+  final Function(String) onSendMedia; 
   final VoidCallback onSendVoice;
 
   const SendZone({
@@ -49,33 +49,51 @@ class _SendZoneState extends State<SendZone> {
 
   // Méthode pour sélectionner une image depuis la galerie
   Future<void> _pickImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      // Appeler la callback avec le chemin de l'image
-      widget.onSendMedia(image.path);
+    try {
+      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        // Appeler la callback avec le chemin de l'image
+        widget.onSendMedia(image.path);
+      }
+    } catch (e) {
+      print("Erreur lors de la sélection de l'image : $e");
     }
   }
 
   // Méthode pour sélectionner une vidéo depuis la galerie
   Future<void> _pickVideo() async {
-    final XFile? video = await _picker.pickVideo(source: ImageSource.gallery);
-    if (video != null) {
-      // Appeler la callback avec le chemin de la vidéo
-      widget.onSendMedia(video.path);
+    try {
+      final XFile? video = await _picker.pickVideo(source: ImageSource.gallery);
+      if (video != null) {
+        // Appeler la callback avec le chemin de la vidéo
+        widget.onSendMedia(video.path);
+      }
+    } catch (e) {
+      print("Erreur lors de la sélection de la vidéo : $e");
     }
   }
 
   // Méthode pour sélectionner un fichier (document, image, vidéo, etc.)
   Future<void> _pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.any,
-      allowMultiple: false,
-    );
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.any,
+        allowMultiple: false,
+      );
 
-    if (result != null) {
-      PlatformFile file = result.files.first;
-      // Appeler la callback avec le chemin du fichier
-      widget.onSendMedia(file.path!);
+      if (result != null) {
+        PlatformFile file = result.files.first;
+        if (file.path != null) {
+          // Appeler la callback avec le chemin du fichier
+          widget.onSendMedia(file.path!);
+        } else {
+          print("Le fichier sélectionné n'a pas de chemin valide.");
+        }
+      } else {
+        print("Aucun fichier sélectionné.");
+      }
+    } catch (e) {
+      print("Erreur lors de la sélection du fichier : $e");
     }
   }
 
@@ -85,97 +103,12 @@ class _SendZoneState extends State<SendZone> {
       context: context,
       backgroundColor: Colors.transparent, // Fond transparent pour le style moderne
       builder: (BuildContext context) {
-        return Container(
-          decoration: BoxDecoration(
-            color: AppColors.bottomBackColor, // Couleur de fond
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
-          ),
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Titre de la modal
-              Text(
-                "Choisir un média",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Options de sélection
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  // Option pour sélectionner une image
-                  _buildMediaOption(
-                    icon: Icons.image,
-                    label: "Image",
-                    onTap: () {
-                      Navigator.pop(context); // Fermer la modal
-                      _pickImage(); // Sélectionner une image
-                    },
-                  ),
-                  // Option pour sélectionner une vidéo
-                  _buildMediaOption(
-                    icon: Icons.video_library,
-                    label: "Vidéo",
-                    onTap: () {
-                      Navigator.pop(context); // Fermer la modal
-                      _pickVideo(); // Sélectionner une vidéo
-                    },
-                  ),
-                  // Option pour sélectionner un fichier
-                  _buildMediaOption(
-                    icon: Icons.insert_drive_file,
-                    label: "Fichier",
-                    onTap: () {
-                      Navigator.pop(context); // Fermer la modal
-                      _pickFile(); // Sélectionner un fichier
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-            ],
-          ),
+        return MediaSelectionModal(
+          onPickImage: _pickImage,
+          onPickVideo: _pickVideo,
+          onPickFile: _pickFile,
         );
       },
-    );
-  }
-
-  // Méthode pour construire une option de média
-  Widget _buildMediaOption({
-    required IconData icon,
-    required String label,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, color: Colors.white, size: 30),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-            ),
-          ),
-        ],
-      ),
     );
   }
 
