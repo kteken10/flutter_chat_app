@@ -46,6 +46,8 @@ dependencies:
   flutter_animate: ^4.5.2
   chat_bubbles: ^1.7.0
   image_picker: ^1.1.2
+  flutter_vector_icons: ^2.0.0
+  file_picker: ^9.0.0
   
 
 dev_dependencies:
