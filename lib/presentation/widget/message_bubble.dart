@@ -55,139 +55,151 @@ class _MessageBubbleState extends State<MessageBubble> {
     showDialog(
       context: context,
       barrierColor: Colors.transparent, // Fond transparent pour le flou
+      barrierDismissible: true, // Permettre la fermeture en cliquant en dehors
       builder: (BuildContext context) {
-        return Stack(
-          children: [
-            // Effet de flou sur l'arrière-plan
-            BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-              child: Container(
-                color: Colors.transparent,
+        return GestureDetector(
+          onTap: () {
+            // Fermer le menu contextuel lorsque l'utilisateur clique en dehors
+            Navigator.pop(context);
+          },
+          child: Stack(
+            children: [
+              // Effet de flou sur l'arrière-plan
+              BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: Container(
+                  color: Colors.transparent,
+                ),
               ),
-            ),
-            // Positionnement du MessageBubble au-dessus du flou
-            Positioned(
-              top: offset.dy,
-              left: widget.isMe ? null : offset.dx, // Ajuster la position horizontale
-              right: widget.isMe ? offset.dx : null,
-              child: Material(
-                color: Colors.transparent,
-                child: Column(
-                  crossAxisAlignment:
-                      widget.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-                  children: [
-                    // Bulle de message
-                    BubbleSpecialThree(
-                      text: widget.text,
-                      isSender: widget.isMe,
-                      color: widget.isMe ? AppColors.primaryColor : Colors.grey[800]!,
-                      tail: true,
-                      textStyle: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
+              // Positionnement du MessageBubble au-dessus du flou
+              Positioned(
+                top: offset.dy,
+                left: widget.isMe ? null : offset.dx, // Ajuster la position horizontale
+                right: widget.isMe ? offset.dx : null,
+                child: Material(
+                  color: Colors.transparent,
+                  child: Column(
+                    crossAxisAlignment:
+                        widget.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                    children: [
+                      // Bulle de message
+                      BubbleSpecialThree(
+                        text: widget.text,
+                        isSender: widget.isMe,
+                        color: widget.isMe ? AppColors.primaryColor : Colors.grey[800]!,
+                        tail: true,
+                        textStyle: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                        sent: true,
+                        seen: true,
                       ),
-                      sent: true,
-                      seen: true,
-                    ),
-                    // Horodatage
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Text(
-                        widget.time,
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.7),
-                          fontSize: 10,
+                      // Horodatage
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Text(
+                          widget.time,
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.7),
+                            fontSize: 10,
+                          ),
                         ),
                       ),
+                    ],
+                  ),
+                ),
+              ),
+              // Positionnement du menu contextuel en dessous du MessageBubble
+              Positioned(
+                top: offset.dy + renderBox.size.height, // Position en dessous du message
+                right: widget.isMe ? offset.dx : null, // Ajuster la position horizontale
+                left: widget.isMe ? null : offset.dx,
+                child: GestureDetector(
+                  onTap: () {
+                    // Empêcher la fermeture du menu lorsque l'utilisateur clique sur le menu
+                  },
+                  child: Material(
+                    color: Colors.transparent,
+                    child: Container(
+                      width: 160, // Largeur fixe pour le menu
+                      decoration: BoxDecoration(
+                        color: AppColors.backgroundColor.withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 10,
+                            spreadRadius: 2,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // Option pour répondre
+                          _buildMenuOption(
+                            icon: Icons.reply,
+                            label: "Répondre",
+                            onTap: () {
+                              Navigator.pop(context); // Fermer le menu
+                              widget.onReply(); // Appeler la fonction de réponse
+                            },
+                          ),
+                          // Option pour copier
+                          _buildMenuOption(
+                            icon: Icons.copy,
+                            label: "Copier",
+                            onTap: () {
+                              Navigator.pop(context); // Fermer le menu
+                              widget.onCopy(); // Appeler la fonction de copie
+                            },
+                          ),
+                          // Option pour épingler
+                          _buildMenuOption(
+                            icon: Icons.push_pin,
+                            label: "Épingler",
+                            onTap: () {
+                              Navigator.pop(context); // Fermer le menu
+                              widget.onPin(); // Appeler la fonction d'épinglage
+                            },
+                          ),
+                          // Option pour transférer
+                          _buildMenuOption(
+                            icon: Icons.forward,
+                            label: "Transférer",
+                            onTap: () {
+                              Navigator.pop(context); // Fermer le menu
+                              widget.onForward(); // Appeler la fonction de transfert
+                            },
+                          ),
+                          // Option pour supprimer
+                          _buildMenuOption(
+                            icon: Icons.delete,
+                            label: "Supprimer",
+                            onTap: () {
+                              Navigator.pop(context); // Fermer le menu
+                              widget.onDelete(); // Appeler la fonction de suppression
+                            },
+                          ),
+                          // Option pour sélectionner
+                          _buildMenuOption(
+                            icon: Icons.check_box,
+                            label: "Sélectionner",
+                            onTap: () {
+                              Navigator.pop(context); // Fermer le menu
+                              widget.onSelect(); // Appeler la fonction de sélection
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            // Positionnement du menu contextuel en dessous du MessageBubble
-            Positioned(
-              top: offset.dy + renderBox.size.height, // Position en dessous du message
-              right: widget.isMe ? offset.dx : null, // Ajuster la position horizontale
-              left: widget.isMe ? null : offset.dx,
-              child: Material(
-                color: Colors.transparent,
-                child: Container(
-                  width: 160, // Largeur fixe pour le menu
-                  decoration: BoxDecoration(
-                    color: AppColors.backgroundColor.withOpacity(0.9),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 10,
-                        spreadRadius: 2,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Option pour répondre
-                      _buildMenuOption(
-                        icon: Icons.reply,
-                        label: "Répondre",
-                        onTap: () {
-                          Navigator.pop(context); // Fermer le menu
-                          widget.onReply(); // Appeler la fonction de réponse
-                        },
-                      ),
-                      // Option pour copier
-                      _buildMenuOption(
-                        icon: Icons.copy,
-                        label: "Copier",
-                        onTap: () {
-                          Navigator.pop(context); // Fermer le menu
-                          widget.onCopy(); // Appeler la fonction de copie
-                        },
-                      ),
-                      // Option pour épingler
-                      _buildMenuOption(
-                        icon: Icons.push_pin,
-                        label: "Épingler",
-                        onTap: () {
-                          Navigator.pop(context); // Fermer le menu
-                          widget.onPin(); // Appeler la fonction d'épinglage
-                        },
-                      ),
-                      // Option pour transférer
-                      _buildMenuOption(
-                        icon: Icons.forward,
-                        label: "Transférer",
-                        onTap: () {
-                          Navigator.pop(context); // Fermer le menu
-                          widget.onForward(); // Appeler la fonction de transfert
-                        },
-                      ),
-                      // Option pour supprimer
-                      _buildMenuOption(
-                        icon: Icons.delete,
-                        label: "Supprimer",
-                        onTap: () {
-                          Navigator.pop(context); // Fermer le menu
-                          widget.onDelete(); // Appeler la fonction de suppression
-                        },
-                      ),
-                      // Option pour sélectionner
-                      _buildMenuOption(
-                        icon: Icons.check_box,
-                        label: "Sélectionner",
-                        onTap: () {
-                          Navigator.pop(context); // Fermer le menu
-                          widget.onSelect(); // Appeler la fonction de sélection
-                        },
-                      ),
-                    ],
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
