@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart'; 
 import '../../../core/theme.dart';
+import '../ui/input.dart';
+
 
 class SendZone extends StatefulWidget {
   final TextEditingController messageController;
   final VoidCallback onSendMessage;
-  final VoidCallback onSendMedia; // Pour sélectionner un média ou un fichier
+  final Function(String) onSendMedia; // Callback pour envoyer le chemin du média
   final VoidCallback onSendVoice;
 
   const SendZone({
@@ -21,6 +24,7 @@ class SendZone extends StatefulWidget {
 
 class _SendZoneState extends State<SendZone> {
   bool _isTyping = false; // Pour suivre si l'utilisateur est en train de taper
+  final ImagePicker _picker = ImagePicker(); // Instance de ImagePicker
 
   @override
   void initState() {
@@ -43,6 +47,24 @@ class _SendZoneState extends State<SendZone> {
     });
   }
 
+  // Méthode pour sélectionner une image depuis la galerie
+  Future<void> _pickImage() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      // Appeler la callback avec le chemin de l'image
+      widget.onSendMedia(image.path);
+    }
+  }
+
+  // Méthode pour sélectionner une vidéo depuis la galerie
+  Future<void> _pickVideo() async {
+    final XFile? video = await _picker.pickVideo(source: ImageSource.gallery);
+    if (video != null) {
+      // Appeler la callback avec le chemin de la vidéo
+      widget.onSendMedia(video.path);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,30 +73,37 @@ class _SendZoneState extends State<SendZone> {
       child: Row(
         children: [
           // Bouton pour sélectionner un média ou un fichier
-          IconButton(
-            onPressed: widget.onSendMedia,
+          PopupMenuButton<String>(
             icon: const Icon(Icons.attach_file, color: Colors.white),
+            onSelected: (value) {
+              if (value == 'image') {
+                _pickImage(); // Sélectionner une image
+              } else if (value == 'video') {
+                _pickVideo(); // Sélectionner une vidéo
+              }
+            },
+            itemBuilder: (BuildContext context) => [
+              const PopupMenuItem(
+                value: 'image',
+                child: Text('Sélectionner une image'),
+              ),
+              const PopupMenuItem(
+                value: 'video',
+                child: Text('Sélectionner une vidéo'),
+              ),
+            ],
           ),
-          // Champ de saisie de texte
+          // Utilisation du composant InputField
           Expanded(
-            child: Container(
-              height: 40, // Hauteur réduite du champ de saisie
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              decoration: BoxDecoration(
-                color: AppColors.inputBackground,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: TextField(
-                controller: widget.messageController,
-                decoration: const InputDecoration(
-                  hintText: 'Écrire un message...',
-                  hintStyle: TextStyle(color: Colors.white54),
-                  border: InputBorder.none, // Pas de bordure
-                  contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                ),
-                style: const TextStyle(color: Colors.white),
-                maxLines: 1, // Une seule ligne
-              ),
+            child: InputField(
+              controller: widget.messageController,
+              label: '', // Vous pouvez laisser le label vide ou mettre un placeholder
+              keyboardType: TextInputType.text,
+              obscureText: false,
+              height: 30, // Hauteur réduite du champ de saisie
+              backgroundColor: AppColors.inputBackground,
+              borderRadius: 20, 
+              applyFocusEffect: false, 
             ),
           ),
           // Bouton pour enregistrer un message vocal ou envoyer un message texte

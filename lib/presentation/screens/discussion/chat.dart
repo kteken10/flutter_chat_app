@@ -38,10 +38,16 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  // Méthode pour sélectionner un média ou un fichier
-  void _sendMedia() {
-    // Implémentez la logique pour sélectionner un média ou un fichier
-    print('Média ou fichier sélectionné');
+   // Méthode pour envoyer un média (image ou vidéo)
+  void _sendMedia(String mediaPath) {
+    setState(() {
+      _messages.add({
+        'text': mediaPath,
+        'sender': 'me', // 'me' pour l'utilisateur actuel
+        'time': _formatTime(DateTime.now()), // Ajout de l'horodatage
+        'type': mediaPath.endsWith('.mp4') ? 'video' : 'image', // Type de média
+      });
+    });
   }
 
   // Méthode pour enregistrer et envoyer un message vocal

@@ -11,6 +11,7 @@ class InputField extends StatelessWidget {
   final Widget? prefixIcon;
   final Color? backgroundColor;
   final double borderRadius; // Nouvelle propriété borderRadius
+  final bool applyFocusEffect; // Nouvelle propriété pour contrôler l'effet de focus
 
   const InputField({
     super.key,
@@ -23,6 +24,7 @@ class InputField extends StatelessWidget {
     this.prefixIcon,
     this.backgroundColor,
     this.borderRadius = 30.0, // Valeur par défaut de 30
+    this.applyFocusEffect = true, // Valeur par défaut true (effet de focus activé)
   });
 
   @override
@@ -49,10 +51,15 @@ class InputField extends StatelessWidget {
             borderSide: const BorderSide(color: Colors.blue, width: 1),
             borderRadius: BorderRadius.circular(borderRadius), // Utilisation de borderRadius
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: AppColors.primaryColor, width: 0.5),
-            borderRadius: BorderRadius.circular(borderRadius), // Utilisation de borderRadius
-          ),
+          focusedBorder: applyFocusEffect // Condition pour appliquer ou non l'effet de focus
+              ? OutlineInputBorder(
+                  borderSide: const BorderSide(color: AppColors.primaryColor, width: 0.5),
+                  borderRadius: BorderRadius.circular(borderRadius),
+                )
+              : OutlineInputBorder(
+                  borderSide: const BorderSide(color: AppColors.backgroundColor, width: 1),
+                  borderRadius: BorderRadius.circular(borderRadius),
+                ),
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: AppColors.backgroundColor, width: 1),
             borderRadius: BorderRadius.circular(borderRadius), // Utilisation de borderRadius
