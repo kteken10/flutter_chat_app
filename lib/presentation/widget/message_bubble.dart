@@ -13,18 +13,15 @@ class MessageBubble extends StatefulWidget {
   final Function() onForward;
   final Function() onDelete;
 
-
   const MessageBubble({
     super.key,
     required this.text,
     required this.isMe,
     required this.time,
-  
     required this.onCopy,
     required this.onPin,
     required this.onForward,
     required this.onDelete,
-   
   });
 
   @override
@@ -52,10 +49,6 @@ class _MessageBubbleState extends State<MessageBubble> {
   void _showContextMenu(BuildContext context) {
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
     final Offset offset = renderBox.localToGlobal(Offset.zero);
-    final double screenHeight = MediaQuery.of(context).size.height;
-
-    // Calculer si le menu doit s'afficher en dessous ou au-dessus du message
-    final bool showBelow = offset.dy + renderBox.size.height + 160 < screenHeight;
 
     // Afficher le menu contextuel
     showDialog(
@@ -118,7 +111,7 @@ class _MessageBubbleState extends State<MessageBubble> {
               ),
               // Positionnement du menu contextuel
               Positioned(
-                top: showBelow ? offset.dy + renderBox.size.height : offset.dy - 160, // Ajuster la position verticale
+                top: offset.dy + renderBox.size.height, // Toujours afficher en dessous
                 right: widget.isMe ? offset.dx : null, // Ajuster la position horizontale
                 left: widget.isMe ? null : offset.dx,
                 child: GestureDetector(
@@ -144,7 +137,6 @@ class _MessageBubbleState extends State<MessageBubble> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                         
                           // Option pour copier
                           _buildMenuOption(
                             icon: Icons.copy,
@@ -181,7 +173,6 @@ class _MessageBubbleState extends State<MessageBubble> {
                               widget.onDelete(); // Appeler la fonction de suppression
                             },
                           ),
-                         
                         ],
                       ),
                     ),
