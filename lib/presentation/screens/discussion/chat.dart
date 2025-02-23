@@ -21,7 +21,25 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   final List<Map<String, String>> _messages = [];
+  final ScrollController _scrollController = ScrollController(); // Ajouter un ScrollController
   int? _editingMessageIndex; // Index du message en cours de modification
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    // Vous pouvez ajouter une logique ici si nécessaire
+  }
 
   // Méthode pour formater l'heure
   String _formatTime(DateTime dateTime) {
@@ -57,6 +75,7 @@ class _ChatScreenState extends State<ChatScreen> {
         }
       });
       _messageController.clear();
+      _scrollToBottom(); // Faire défiler vers le bas après l'ajout d'un nouveau message
     }
   }
 
@@ -99,6 +118,19 @@ class _ChatScreenState extends State<ChatScreen> {
     print('Transférer le message à l\'index $index');
   }
 
+  // Méthode pour faire défiler vers le bas
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,6 +143,7 @@ class _ChatScreenState extends State<ChatScreen> {
           // Liste des messages
           Expanded(
             child: ListView.builder(
+              controller: _scrollController, // Associer le ScrollController
               itemCount: _messages.length,
               itemBuilder: (context, index) {
                 final message = _messages[index];

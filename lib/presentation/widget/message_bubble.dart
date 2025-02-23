@@ -11,7 +11,7 @@ class MessageBubble extends StatefulWidget {
   final Function() onPin;
   final Function() onForward;
   final Function() onDelete;
-  final Function() onEdit; // Ajouter la fonction de modification
+  final Function() onEdit; 
 
   const MessageBubble({
     super.key,
@@ -22,7 +22,7 @@ class MessageBubble extends StatefulWidget {
     required this.onPin,
     required this.onForward,
     required this.onDelete,
-    required this.onEdit, // Ajouter la fonction de modification
+    required this.onEdit, 
   });
 
   @override
@@ -31,7 +31,6 @@ class MessageBubble extends StatefulWidget {
 
 class _MessageBubbleState extends State<MessageBubble> {
   double _opacity = 0.0; // Initial opacity
-  final ScrollController _scrollController = ScrollController(); // Contrôleur de défilement
 
   @override
   void initState() {
@@ -222,8 +221,8 @@ class _MessageBubbleState extends State<MessageBubble> {
         alignment: widget.isMe ? Alignment.centerRight : Alignment.centerLeft,
         child: GestureDetector(
           onLongPress: () => _showContextMenu(context), // Détecter un appui long
-          child: SingleChildScrollView(
-            controller: _scrollController, // Utiliser le contrôleur de défilement
+       
+         
             child: Column(
               crossAxisAlignment:
                   widget.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
@@ -257,7 +256,7 @@ class _MessageBubbleState extends State<MessageBubble> {
             ),
           ),
         ),
-      ),
+      
     );
   }
 }
