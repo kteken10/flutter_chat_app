@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:flutter/material.dart';
 import '../../../core/theme.dart';
 import '../../widget/header_chat.dart';
@@ -131,6 +134,161 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 
+  // Méthode pour afficher le menu contextuel
+  void _showContextMenu(BuildContext context, GlobalKey key, int index) {
+    _scrollToBottom();
+    final RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
+    final Offset offset = renderBox.localToGlobal(Offset.zero);
+
+    showDialog(
+      context: context,
+      barrierColor: Colors.transparent,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Stack(
+            children: [
+              BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: Container(
+                  color: Colors.transparent,
+                ),
+              ),
+              Positioned(
+                top: offset.dy,
+                left: _messages[index]['sender'] == 'me' ? null : offset.dx,
+                right: _messages[index]['sender'] == 'me' ? offset.dx : null,
+                child: Material(
+                  color: Colors.transparent,
+                  child: Column(
+                    crossAxisAlignment: _messages[index]['sender'] == 'me'
+                        ? CrossAxisAlignment.end
+                        : CrossAxisAlignment.start,
+                    children: [
+                      BubbleSpecialThree(
+                        text: _messages[index]['text']!,
+                        isSender: _messages[index]['sender'] == 'me',
+                        color: _messages[index]['sender'] == 'me'
+                            ? AppColors.primaryColor
+                            : Colors.grey[800]!,
+                        tail: true,
+                        textStyle: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                        sent: true,
+                        seen: true,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Text(
+                          _messages[index]['time']!,
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.7),
+                            fontSize: 10,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: offset.dy + renderBox.size.height,
+                right: _messages[index]['sender'] == 'me' ? offset.dx : null,
+                left: _messages[index]['sender'] == 'me' ? null : offset.dx,
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Material(
+                    color: Colors.transparent,
+                    child: Container(
+                      width: 160,
+                      decoration: BoxDecoration(
+                        color: AppColors.backgroundColor.withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 10,
+                            spreadRadius: 2,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _buildMenuOption(
+                            icon: Icons.copy,
+                            label: "Copier",
+                            onTap: () {
+                              Navigator.pop(context);
+                              _copyMessage(index);
+                            },
+                          ),
+                          _buildMenuOption(
+                            icon: Icons.push_pin,
+                            label: "Épingler",
+                            onTap: () {
+                              Navigator.pop(context);
+                              _pinMessage(index);
+                            },
+                          ),
+                          _buildMenuOption(
+                            icon: Icons.forward,
+                            label: "Transférer",
+                            onTap: () {
+                              Navigator.pop(context);
+                              _forwardMessage(index);
+                            },
+                          ),
+                          _buildMenuOption(
+                            icon: Icons.delete,
+                            label: "Supprimer",
+                            onTap: () {
+                              Navigator.pop(context);
+                              _deleteMessage(index);
+                            },
+                          ),
+                          _buildMenuOption(
+                            icon: Icons.edit,
+                            label: "Modifier",
+                            onTap: () {
+                              Navigator.pop(context);
+                              _editMessage(index);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildMenuOption({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return ListTile(
+      trailing: Icon(icon, color: Colors.white, size: 20),
+      title: Text(
+        label,
+        style: const TextStyle(color: Colors.white, fontSize: 14),
+      ),
+      onTap: onTap,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,7 +305,9 @@ class _ChatScreenState extends State<ChatScreen> {
               itemCount: _messages.length,
               itemBuilder: (context, index) {
                 final message = _messages[index];
+                final GlobalKey key = GlobalKey();
                 return MessageBubble(
+                  key: key, // Passer le GlobalKey
                   text: message['text']!,
                   isMe: message['sender'] == 'me',
                   time: message['time']!,
@@ -156,6 +316,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   onForward: () => _forwardMessage(index),
                   onDelete: () => _deleteMessage(index),
                   onEdit: () => _editMessage(index), // Ajouter la fonction de modification
+                  onLongPress: () => _showContextMenu(context, key, index), // Ajouter la fonction de menu contextuel
                 );
               },
             ),

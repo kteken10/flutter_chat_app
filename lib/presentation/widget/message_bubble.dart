@@ -11,10 +11,13 @@ class MessageBubble extends StatefulWidget {
   final Function() onPin;
   final Function() onForward;
   final Function() onDelete;
-  final Function() onEdit; 
+  final Function() onEdit;
+  final Function() onLongPress; // Ajouter le callback onLongPress
+  @override
+  // ignore: overridden_fields
+  final GlobalKey key; // Ajouter un GlobalKey
 
   const MessageBubble({
-    super.key,
     required this.text,
     required this.isMe,
     required this.time,
@@ -22,8 +25,10 @@ class MessageBubble extends StatefulWidget {
     required this.onPin,
     required this.onForward,
     required this.onDelete,
-    required this.onEdit, 
-  });
+    required this.onEdit,
+    required this.onLongPress,
+    required this.key, // Ajouter un GlobalKey
+  }) : super(key: key);
 
   @override
   State<MessageBubble> createState() => _MessageBubbleState();
@@ -31,184 +36,25 @@ class MessageBubble extends StatefulWidget {
 
 class _MessageBubbleState extends State<MessageBubble> {
   double _opacity = 0.0; // Initial opacity
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    // Déclencher l'animation après un court délai
+    // Trigger the animation after a short delay
     Future.delayed(const Duration(milliseconds: 100), () {
       if (mounted) {
         setState(() {
-          _opacity = 1.0; // Faire apparaître la bulle
+          _opacity = 1.0; // Make the bubble appear
         });
       }
     });
   }
 
-  // Méthode pour afficher le menu contextuel
-  void _showContextMenu(BuildContext context) {
-    final RenderBox renderBox = context.findRenderObject() as RenderBox;
-    final Offset offset = renderBox.localToGlobal(Offset.zero);
-
-    // Afficher le menu contextuel
-    showDialog(
-      context: context,
-      barrierColor: Colors.transparent, // Fond transparent pour le flou
-      barrierDismissible: true, // Permettre la fermeture en cliquant en dehors
-      builder: (BuildContext context) {
-        return GestureDetector(
-          onTap: () {
-            // Fermer le menu contextuel lorsque l'utilisateur clique en dehors
-            Navigator.pop(context);
-          },
-          child: Stack(
-            children: [
-              // Effet de flou sur l'arrière-plan
-              BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                child: Container(
-                  color: Colors.transparent,
-                ),
-              ),
-              // Positionnement du MessageBubble au-dessus du flou
-              Positioned(
-                top: offset.dy,
-                left: widget.isMe ? null : offset.dx, // Ajuster la position horizontale
-                right: widget.isMe ? offset.dx : null,
-                child: Material(
-                  color: Colors.transparent,
-                  child: Column(
-                    crossAxisAlignment:
-                        widget.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-                    children: [
-                      // Bulle de message
-                      BubbleSpecialThree(
-                        text: widget.text,
-                        isSender: widget.isMe,
-                        color: widget.isMe ? AppColors.primaryColor : Colors.grey[800]!,
-                        tail: true,
-                        textStyle: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                        ),
-                        sent: true,
-                        seen: true,
-                      ),
-                      // Horodatage
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: Text(
-                          widget.time,
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(0.7),
-                            fontSize: 10,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              // Positionnement du menu contextuel
-              Positioned(
-                top: offset.dy + renderBox.size.height, // Toujours afficher en dessous
-                right: widget.isMe ? offset.dx : null, // Ajuster la position horizontale
-                left: widget.isMe ? null : offset.dx,
-                child: GestureDetector(
-                  onTap: () {
-                    // Empêcher la fermeture du menu lorsque l'utilisateur clique sur le menu
-                  },
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Container(
-                      width: 160, // Largeur fixe pour le menu
-                      decoration: BoxDecoration(
-                        color: AppColors.backgroundColor.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            blurRadius: 10,
-                            spreadRadius: 2,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // Option pour copier
-                          _buildMenuOption(
-                            icon: Icons.copy,
-                            label: "Copier",
-                            onTap: () {
-                              Navigator.pop(context); // Fermer le menu
-                              widget.onCopy(); // Appeler la fonction de copie
-                            },
-                          ),
-                          // Option pour épingler
-                          _buildMenuOption(
-                            icon: Icons.push_pin,
-                            label: "Épingler",
-                            onTap: () {
-                              Navigator.pop(context); // Fermer le menu
-                              widget.onPin(); // Appeler la fonction d'épinglage
-                            },
-                          ),
-                          // Option pour transférer
-                          _buildMenuOption(
-                            icon: Icons.forward,
-                            label: "Transférer",
-                            onTap: () {
-                              Navigator.pop(context); // Fermer le menu
-                              widget.onForward(); // Appeler la fonction de transfert
-                            },
-                          ),
-                          // Option pour supprimer
-                          _buildMenuOption(
-                            icon: Icons.delete,
-                            label: "Supprimer",
-                            onTap: () {
-                              Navigator.pop(context); // Fermer le menu
-                              widget.onDelete(); // Appeler la fonction de suppression
-                            },
-                          ),
-                          // Option pour modifier
-                          _buildMenuOption(
-                            icon: Icons.edit,
-                            label: "Modifier",
-                            onTap: () {
-                              Navigator.pop(context); // Fermer le menu
-                              widget.onEdit(); // Appeler la fonction de modification
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  // Méthode pour construire une option du menu
-  Widget _buildMenuOption({
-    required IconData icon,
-    required String label,
-    required VoidCallback onTap,
-  }) {
-    return ListTile(
-      trailing: Icon(icon, color: Colors.white, size: 20), // Icône à droite
-      title: Text(
-        label,
-        style: const TextStyle(color: Colors.white, fontSize: 14), // Texte plus petit
-      ),
-      onTap: onTap,
-    );
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -220,15 +66,15 @@ class _MessageBubbleState extends State<MessageBubble> {
       child: Align(
         alignment: widget.isMe ? Alignment.centerRight : Alignment.centerLeft,
         child: GestureDetector(
-          onLongPress: () => _showContextMenu(context), // Détecter un appui long
-       
-         
+          onLongPress: widget.onLongPress, // Utiliser le callback onLongPress
+          child: SingleChildScrollView(
+            controller: _scrollController,
             child: Column(
               crossAxisAlignment:
                   widget.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Bulle de message
+                // Message bubble
                 BubbleSpecialThree(
                   text: widget.text,
                   isSender: widget.isMe,
@@ -241,7 +87,7 @@ class _MessageBubbleState extends State<MessageBubble> {
                   sent: true,
                   seen: true,
                 ),
-                // Horodatage
+                // Timestamp
                 Padding(
                   padding: const EdgeInsets.only(top: 4),
                   child: Text(
@@ -256,7 +102,7 @@ class _MessageBubbleState extends State<MessageBubble> {
             ),
           ),
         ),
-      
+      ),
     );
   }
 }
