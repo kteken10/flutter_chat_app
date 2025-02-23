@@ -3,11 +3,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import '../../../core/theme.dart';
 import '../ui/input.dart';
-import 'media_selection_modal.dart'; 
+import 'media_selection_modal.dart';
+
 class SendZone extends StatefulWidget {
   final TextEditingController messageController;
   final VoidCallback onSendMessage;
-  final Function(String) onSendMedia; 
+  final Function(String) onSendMedia;
   final VoidCallback onSendVoice;
 
   const SendZone({
@@ -133,8 +134,8 @@ class _SendZoneState extends State<SendZone> {
               obscureText: false,
               height: 30, // Hauteur réduite du champ de saisie
               backgroundColor: AppColors.inputBackground,
-              borderRadius: 20, 
-              applyFocusEffect: false, 
+              borderRadius: 20,
+              applyFocusEffect: false,
             ),
           ),
           // Bouton pour enregistrer un message vocal ou envoyer un message texte

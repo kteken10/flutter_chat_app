@@ -7,11 +7,11 @@ class MessageBubble extends StatefulWidget {
   final String text;
   final bool isMe;
   final String time;
-
   final Function() onCopy;
   final Function() onPin;
   final Function() onForward;
   final Function() onDelete;
+  final Function() onEdit; // Ajouter la fonction de modification
 
   const MessageBubble({
     super.key,
@@ -22,6 +22,7 @@ class MessageBubble extends StatefulWidget {
     required this.onPin,
     required this.onForward,
     required this.onDelete,
+    required this.onEdit, // Ajouter la fonction de modification
   });
 
   @override
@@ -171,6 +172,15 @@ class _MessageBubbleState extends State<MessageBubble> {
                             onTap: () {
                               Navigator.pop(context); // Fermer le menu
                               widget.onDelete(); // Appeler la fonction de suppression
+                            },
+                          ),
+                          // Option pour modifier
+                          _buildMenuOption(
+                            icon: Icons.edit,
+                            label: "Modifier",
+                            onTap: () {
+                              Navigator.pop(context); // Fermer le menu
+                              widget.onEdit(); // Appeler la fonction de modification
                             },
                           ),
                         ],

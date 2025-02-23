@@ -15,50 +15,63 @@ class ChatScreen extends StatefulWidget {
   });
 
   @override
-  // ignore: library_private_types_in_public_api
   _ChatScreenState createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   final List<Map<String, String>> _messages = [];
+  int? _editingMessageIndex; // Index du message en cours de modification
+
+  // Méthode pour formater l'heure
+  String _formatTime(DateTime dateTime) {
+    return "${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}";
+  }
+
+  // Méthode pour envoyer un message média
+  void _sendMedia(String mediaPath) {
+    // Implémentez la logique pour envoyer un message média
+    print('Envoyer un message média');
+  }
 
   // Méthode pour envoyer un message texte
   void _sendMessage() {
     final String messageText = _messageController.text.trim();
     if (messageText.isNotEmpty) {
       setState(() {
-        _messages.add({
-          'text': messageText,
-          'sender': 'me', // 'me' pour l'utilisateur actuel
-          'time': _formatTime(DateTime.now()), // Ajout de l'horodatage
-        });
+        if (_editingMessageIndex != null) {
+          // Modifier le message existant
+          _messages[_editingMessageIndex!] = {
+            'text': messageText,
+            'sender': 'me',
+            'time': _formatTime(DateTime.now()),
+          };
+          _editingMessageIndex = null; // Réinitialiser l'index de modification
+        } else {
+          // Ajouter un nouveau message
+          _messages.add({
+            'text': messageText,
+            'sender': 'me',
+            'time': _formatTime(DateTime.now()),
+          });
+        }
       });
       _messageController.clear();
     }
   }
 
-  // Méthode pour envoyer un média (image ou vidéo)
-  void _sendMedia(String mediaPath) {
-    setState(() {
-      _messages.add({
-        'text': mediaPath,
-        'sender': 'me', // 'me' pour l'utilisateur actuel
-        'time': _formatTime(DateTime.now()), // Ajout de l'horodatage
-        'type': mediaPath.endsWith('.mp4') ? 'video' : 'image', // Type de média
-      });
-    });
-  }
-
-  // Méthode pour enregistrer et envoyer un message vocal
+  // Méthode pour envoyer un message vocal
   void _sendVoice() {
-    // Implémentez la logique pour enregistrer et envoyer un message vocal
-    print('Message vocal envoyé');
+    // Implémentez la logique pour envoyer un message vocal
+    print('Envoyer un message vocal');
   }
 
-  // Méthode pour formater l'heure
-  String _formatTime(DateTime dateTime) {
-    return '${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}';
+  // Méthode pour modifier un message
+  void _editMessage(int index) {
+    setState(() {
+      _editingMessageIndex = index;
+      _messageController.text = _messages[index]['text']!;
+    });
   }
 
   // Méthode pour supprimer un message
@@ -68,7 +81,6 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 
-  
   // Méthode pour copier un message
   void _copyMessage(int index) {
     // Implémentez la logique pour copier un message
@@ -87,7 +99,6 @@ class _ChatScreenState extends State<ChatScreen> {
     print('Transférer le message à l\'index $index');
   }
 
- 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,24 +117,22 @@ class _ChatScreenState extends State<ChatScreen> {
                 return MessageBubble(
                   text: message['text']!,
                   isMe: message['sender'] == 'me',
-                  time: message['time']!, // Ajout de l'horodatage
-                
+                  time: message['time']!,
                   onCopy: () => _copyMessage(index),
                   onPin: () => _pinMessage(index),
                   onForward: () => _forwardMessage(index),
                   onDelete: () => _deleteMessage(index),
-                  // onSelect: () => _selectMessage(index),
+                  onEdit: () => _editMessage(index), // Ajouter la fonction de modification
                 );
               },
             ),
           ),
-
           // Zone de saisie et d'envoi de message
           SendZone(
             messageController: _messageController,
             onSendMessage: _sendMessage,
-            onSendMedia: _sendMedia,
-            onSendVoice: _sendVoice,
+            onSendMedia: (mediaPath) => _sendMedia(mediaPath),
+            onSendVoice: () => _sendVoice(),
           ),
         ],
       ),
