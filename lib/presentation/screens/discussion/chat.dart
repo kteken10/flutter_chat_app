@@ -68,12 +68,7 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 
-  // Méthode pour répondre à un message
-  void _replyToMessage(int index) {
-    // Implémentez la logique pour répondre à un message
-    print('Répondre au message à l\'index $index');
-  }
-
+  
   // Méthode pour copier un message
   void _copyMessage(int index) {
     // Implémentez la logique pour copier un message
@@ -92,12 +87,7 @@ class _ChatScreenState extends State<ChatScreen> {
     print('Transférer le message à l\'index $index');
   }
 
-  // Méthode pour sélectionner un message
-  void _selectMessage(int index) {
-    // Implémentez la logique pour sélectionner un message
-    print('Sélectionner le message à l\'index $index');
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,12 +107,12 @@ class _ChatScreenState extends State<ChatScreen> {
                   text: message['text']!,
                   isMe: message['sender'] == 'me',
                   time: message['time']!, // Ajout de l'horodatage
-                  onReply: () => _replyToMessage(index),
+                
                   onCopy: () => _copyMessage(index),
                   onPin: () => _pinMessage(index),
                   onForward: () => _forwardMessage(index),
                   onDelete: () => _deleteMessage(index),
-                  onSelect: () => _selectMessage(index),
+                  // onSelect: () => _selectMessage(index),
                 );
               },
             ),
