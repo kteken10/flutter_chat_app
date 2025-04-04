@@ -102,31 +102,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     color: AppColors.primaryColor,
                   ),
                 ),
-                const SizedBox(height: 32.0),
+                 const SizedBox(height: 16),
                 InputField(
                   controller: _nameController,
                   label: "Nom",
+                  height: 70,
                   keyboardType: TextInputType.text,
                   obscureText: false,
                   icon: const Icon(Iconsax.user, color: Colors.white,size:18), // Icône IconSax pour le nom
                 ),
-                const SizedBox(height: 32.0),
+                const SizedBox(height: 16),
                 InputField(
                   controller: _emailController,
                   label: "Email",
+                    height: 70,
                   keyboardType: TextInputType.emailAddress,
                   obscureText: false,
                   icon: const Icon(Iconsax.sms, color: Colors.white,size:18), // Icône IconSax pour l'email
                 ),
-                const SizedBox(height: 32.0),
+                 const SizedBox(height: 16),
                 InputField(
                   controller: _passwordController,
                   label: "Mot de passe",
+                    height: 70,
                   keyboardType: TextInputType.text,
                   obscureText: true,
                   icon: const Icon(Iconsax.lock, color: Colors.white,size:18), // Icône IconSax pour le mot de passe
                 ),
-                const SizedBox(height: 32.0),
+                 const SizedBox(height: 16),
                 // Remplacer l'ElevatedButton par le composant Bouton
                 Bouton(
                   text: "S'inscrire",

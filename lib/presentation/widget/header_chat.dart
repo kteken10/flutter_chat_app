@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart'; // Importez les icônes modernes
+// Importez les icônes modernes
 import 'package:iconsax/iconsax.dart';
 import '../../core/theme.dart';
 

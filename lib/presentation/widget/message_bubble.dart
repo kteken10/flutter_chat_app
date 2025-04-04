@@ -1,4 +1,4 @@
-import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import '../../../core/theme.dart';
@@ -12,10 +12,10 @@ class MessageBubble extends StatefulWidget {
   final Function() onForward;
   final Function() onDelete;
   final Function() onEdit;
-  final Function() onLongPress; // Ajouter le callback onLongPress
+  final Function() onLongPress;
   @override
   // ignore: overridden_fields
-  final GlobalKey key; // Ajouter un GlobalKey
+  final GlobalKey key; 
 
   const MessageBubble({
     required this.text,
@@ -27,7 +27,7 @@ class MessageBubble extends StatefulWidget {
     required this.onDelete,
     required this.onEdit,
     required this.onLongPress,
-    required this.key, // Ajouter un GlobalKey
+    required this.key, 
   }) : super(key: key);
 
   @override
@@ -45,7 +45,7 @@ class _MessageBubbleState extends State<MessageBubble> {
     Future.delayed(const Duration(milliseconds: 100), () {
       if (mounted) {
         setState(() {
-          _opacity = 1.0; // Make the bubble appear
+          _opacity = 1.0; 
         });
       }
     });
@@ -66,7 +66,7 @@ class _MessageBubbleState extends State<MessageBubble> {
       child: Align(
         alignment: widget.isMe ? Alignment.centerRight : Alignment.centerLeft,
         child: GestureDetector(
-          onLongPress: widget.onLongPress, // Utiliser le callback onLongPress
+          onLongPress: widget.onLongPress, 
           child: SingleChildScrollView(
             controller: _scrollController,
             child: Column(

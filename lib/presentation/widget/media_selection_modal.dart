@@ -40,7 +40,7 @@ class MediaSelectionModal extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             // Titre de la modal
-            Text(
+            const Text(
               "Choisir un média",
               style: TextStyle(
                 fontSize: 20,
@@ -128,7 +128,7 @@ class MediaSelectionModal extends StatelessWidget {
           // Texte descriptif
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white, // Texte en blanc pour contraster avec le fond noir
               fontSize: 16,
               fontWeight: FontWeight.w500,

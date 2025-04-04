@@ -21,11 +21,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+
   void _login() async {
     setState(() {
       _isLoading = true;
     });
-    
+
     final String email = _emailController.text.trim();
     final String password = _passwordController.text.trim();
 
@@ -95,8 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: AppColors.primaryColor,
                   ),
                 ),
-                
-                const SizedBox(height: 32.0),
+                const SizedBox(height: 16),
                 InputField(
                   controller: _emailController,
                   height: 70,
@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: false,
                   icon: const Icon(Iconsax.sms, color: Colors.white,size: 18),
                 ),
-                const SizedBox(height: 32.0),
+                const SizedBox(height: 16),
                 InputField(
                   controller: _passwordController,
                   height: 70,
@@ -114,15 +114,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: true,
                   icon: const Icon(Iconsax.lock, color: Colors.white,size: 18), 
                 ),
-                
-                const SizedBox(height: 32.0),
+                const SizedBox(height: 16),
                 Bouton(
-                  text: "Se connecter",
+                  text: "Se connecter", 
                   onPressed: _login,
                   isLoading: _isLoading,
                   color: AppColors.primaryColor,
                 ),
-                const SizedBox(height: 16.0),
+                 const SizedBox(height: 16),
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/signup');

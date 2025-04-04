@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class AppTypography {
+  
   static TextStyle textXs(BuildContext context) {
     return const TextStyle(
       fontSize: 12, // 0.75rem
       height: 1.0, // line-height: 1rem
       fontWeight: FontWeight.normal,
+      
     );
   }
 
