@@ -9,8 +9,6 @@ class AppColors {
   static const Color grayFineColor = Color(0xFF3d4648);
   static const Color inputBackground = Color(0XFF202d34);
 
-  // static const Color blueBold = Color(0xFF011A41);
-  // static const Color backColor = Color(0xFFF5F6FB);
   // static const Color grayDarkColor = Color(0xFF7C7C7C);
   // static const Color backColorFine = Color(0xFFDAE1EF);
   // static const Color udemColors = Color(0xFF2D2F31);
