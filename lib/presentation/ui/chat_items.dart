@@ -35,7 +35,7 @@ class ChatItem extends StatelessWidget {
         ListTile(
           leading: CircleAvatar(
             radius: 26, // Rayon de 26 pour un diamètre de 52 pixels
-            backgroundImage: NetworkImage(userProfilePicture),
+            backgroundImage: userProfilePicture.startsWith('assets/') ? AssetImage(userProfilePicture) as ImageProvider : NetworkImage(userProfilePicture),
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -23,7 +23,16 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
-  final List<Map<String, String>> _messages = [];
+  // Conversation de démonstration, pour que l'écran ne s'ouvre pas vide.
+  final List<Map<String, String>> _messages = [
+    {'text': 'Salut ! Tu as pu regarder la nouvelle maquette ?', 'sender': 'other', 'time': '9:28'},
+    {'text': 'Oui, je viens de la parcourir 🙌', 'sender': 'me', 'time': '9:30'},
+    {'text': 'Le parcours d\'inscription est beaucoup plus fluide.', 'sender': 'me', 'time': '9:30'},
+    {'text': 'Top ! J\'ai simplifié l\'écran d\'accueil aussi.', 'sender': 'other', 'time': '9:34'},
+    {'text': 'Je l\'ai vu, les cartes rendent super bien. On garde ce style partout ?', 'sender': 'me', 'time': '9:36'},
+    {'text': 'Oui, on part là-dessus pour la V2.', 'sender': 'other', 'time': '9:39'},
+    {'text': 'Parfait, je valide la maquette 👌', 'sender': 'other', 'time': '9:41'},
+  ];
   final ScrollController _scrollController = ScrollController(); // Ajouter un ScrollController
   int? _editingMessageIndex; // Index du message en cours de modification
 

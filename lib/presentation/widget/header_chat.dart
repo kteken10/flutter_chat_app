@@ -19,7 +19,7 @@ class HeaderChat extends StatelessWidget implements PreferredSizeWidget {
       title: Row(
         children: [
           CircleAvatar(
-            backgroundImage: NetworkImage(userProfilePicture),
+            backgroundImage: userProfilePicture.startsWith('assets/') ? AssetImage(userProfilePicture) as ImageProvider : NetworkImage(userProfilePicture),
           ),
           const SizedBox(width: 10),
           Text(
