@@ -1,105 +1,72 @@
-
 # Flutter Chat App
 
-![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)
-![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=white)
-![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
+<p align="center"><img src="docs/banner.png" alt="Flutter Chat App: real-time chat built with Flutter and Firebase" width="100%"></p>
 
-Une application de messagerie complète développée avec Flutter et Firebase.
+![Flutter](https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=black)
+![Platforms](https://img.shields.io/badge/platforms-Android%20%7C%20iOS-0A2540)
 
----
+A chat app built with Flutter and Firebase: sign in, find people and chat in real time.
 
-## Fonctionnalités
+## Screens
 
-### Authentification
-- ✅ Connexion utilisateur
-- ✅ Inscription utilisateur
-- 🔒 Gestion sécurisée des sessions
+<p align="center"><img src="docs/tour.gif" width="260" alt="Tour of the app: sign in, discussions, conversation"></p>
 
-### Messagerie
-- 💬 Chat individuel (1-to-1)
-- 👥 Chat de groupe
-- 📎 Envoi de fichiers multimédias :
-  - 🖼️ Images
-  - 🎵 Audio
-  - 📹 Vidéos
-  - 📄 Documents
-- 🔍 Recherche de conversations
+| Sign in | Discussions | Conversation |
+|:---:|:---:|:---:|
+| <img src="docs/screens/sign-in.png" width="160" alt="Sign in screen"> | <img src="docs/screens/discussions.png" width="160" alt="Discussions screen"> | <img src="docs/screens/conversation.png" width="160" alt="Conversation screen"> |
 
-### Stories
-- 📸 Publication de stories visibles 24h
-- 👀 Vue qui a vu votre story
+## Features
 
-### Appels
-- 📞 Appel vocal aux contacts
+- **Authentication**: sign up and sign in with Firebase Authentication; profiles stored in Cloud Firestore.
+- **People**: users listed from Firestore.
+- **Discussions**: conversation list with search.
+- **Conversation**: chat bubbles, messages streamed from Firestore in real time.
+- **Navigation**: bottom bar with discussions, people, stories, calls and settings.
 
-### Personnalisation
-- 🎨 Configuration du thème (clair/sombre)
-- ✏️ Modification du profil utilisateur
+## Tech stack
 
----
+- Flutter, Dart, Provider
+- Firebase: Authentication, Cloud Firestore
+- [chat_bubbles](https://pub.dev/packages/chat_bubbles), [persistent_bottom_nav_bar](https://pub.dev/packages/persistent_bottom_nav_bar), [flutter_animate](https://pub.dev/packages/flutter_animate), [iconsax](https://pub.dev/packages/iconsax)
 
-## Technologies utilisées
+```
+lib/
+├── core/               theme
+├── data/
+│   ├── models/
+│   ├── providers/
+│   └── repositories/   auth and users (Firestore)
+├── presentation/
+│   ├── navigation/
+│   ├── screens/        auth, discussion, peoples, stories, call, settings
+│   └── widget/, ui/
+├── services/firebase/
+└── utils/
+```
 
-- **Framework** : Flutter (Dart)
-- **Backend** : 
-  - Firebase Authentication
-  - Cloud Firestore
-  - Firebase Storage (pour les fichiers multimédias)
-- **État** : Provider ou Riverpod (selon votre choix)
-- **Autres packages** : 
-  - intl pour la gestion des dates
-  - image_picker pour la sélection de médias
-  - firebase_core, cloud_firestore, etc.
+## Getting started
 
----
+1. Create a Firebase project and enable Authentication (email and password) and Cloud Firestore.
+2. Register the Android app and replace `android/app/google-services.json` with yours (and add `ios/Runner/GoogleService-Info.plist` for iOS).
+3. Run:
 
-## 📸 Aperçu de l'application
+```bash
+flutter pub get
+flutter run
+```
 
-<table>
-  <tr>
-    <td><img src="https://github.com/user-attachments/assets/0048d632-77cd-4032-a4ee-eb46b29f25d8" alt="Chat 1" width="100%"/></td>
-    <td><img src="https://github.com/user-attachments/assets/07e71b34-7d5d-4926-b36e-0c700df76554" alt="Chat 2" width="100%"/></td>
-  </tr>
-  <tr>
-    <td><img src="https://github.com/user-attachments/assets/0f0f16b8-dfa9-4689-9eb2-75967c0e1a71" alt="Chat 3" width="100%"/></td>
-    <td><img src="https://github.com/user-attachments/assets/2dbacdc7-b213-43fc-9f9b-c90438b15f32" alt="Chat 4" width="100%"/></td>
-  </tr>
-</table>
+## Roadmap
 
----
+The stories, calls and settings tabs are placeholders for now.
 
-## ⚙️ Configuration du projet
+- [ ] Store sent messages per conversation in Firestore
+- [ ] Group chats
+- [ ] Images and files in messages
+- [ ] Stories
+- [ ] Voice calls
 
-### Prérequis
-- Flutter SDK (dernière version stable)
-- Compte Firebase
-- Android Studio/Xcode (pour l'émulation)
+## Author
 
-### Installation
-1. Cloner le dépôt :
-   ```bash
-   git clone https://github.com/kteken10/flutter_chat_app.git
-   ```
-
-2. Installer les dépendances :
-   ```bash
-   flutter pub get
-   ```
-
-3. Configurer Firebase :
-   - Ajouter `google-services.json` (Android) ou `GoogleService-Info.plist` (iOS)
-   - Activer les services nécessaires (Auth, Firestore, Storage)
-
-4. Lancer l’application :
-   ```bash
-   flutter run
-   ```
-
----
-
-## 📬 Contact
-
-Pour toute question ou collaboration, n’hésitez pas à me contacter :  
-📧 [dissangfrancis@yahoo.com](mailto:dissangfrancis@yahoo.com)  
-🔗 [LinkedIn](https://www.linkedin.com/in/dissangkevin)
+**Dissang Kevin** · Mobile AI Engineer
+[Portfolio](https://dissangkevin.work) · [GitHub](https://github.com/kteken10)
