@@ -87,9 +87,9 @@ class _MessageBubbleState extends State<MessageBubble> {
                   sent: true,
                   seen: true,
                 ),
-                // Timestamp
+                // Heure, alignée sur le bord de la bulle plutôt que sur celui de l'écran.
                 Padding(
-                  padding: const EdgeInsets.only(top: 4),
+                  padding: const EdgeInsets.fromLTRB(22, 4, 22, 0),
                   child: Text(
                     widget.time,
                     style: TextStyle(

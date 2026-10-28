@@ -18,7 +18,7 @@ class SearchInput extends StatelessWidget {
             borderRadius: 8,
             backgroundColor: AppColors.inputBackground,
             controller: controller,
-            label: '',
+            label: 'Rechercher',
             keyboardType: TextInputType.text,
             obscureText: false,
             prefixIcon: const Icon(Icons.search, color: Colors.grey,size: 26), // Icône de recherche à gauche

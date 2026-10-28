@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   static const Color primaryColor = Color.fromARGB(255, 0, 18, 218);
+  // Bleu éclairci pour les textes et liens sur fond sombre.
+  static const Color accentText = Color(0xFF8C99FF);
   static const Color secondaryColor = Color(0xFF0a171e);
   static const Color bottomBackColor = Color(0xFF050e12);
   static const Color backgroundColor = Color(0xFF0a171e);

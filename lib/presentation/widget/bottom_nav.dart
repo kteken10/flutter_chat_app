@@ -32,26 +32,26 @@ class _BottomNavState extends State<BottomNav> {
     PersistentBottomNavBarItem(
       icon: const Icon(Iconsax.message1, size: 22),
       title: "Discussions",
-      activeColorPrimary: AppColors.primaryColor,
-      inactiveColorPrimary: Colors.white,
+      activeColorPrimary: AppColors.accentText,
+      inactiveColorPrimary: Colors.white70,
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(Iconsax.story, size: 22),
       title: "Stories",
-      activeColorPrimary: AppColors.primaryColor,
-      inactiveColorPrimary: Colors.white,
+      activeColorPrimary: AppColors.accentText,
+      inactiveColorPrimary: Colors.white70,
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(Iconsax.call, size: 22),
       title: "Appels",
-      activeColorPrimary: AppColors.primaryColor,
-      inactiveColorPrimary: Colors.white,
+      activeColorPrimary: AppColors.accentText,
+      inactiveColorPrimary: Colors.white70,
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(Iconsax.setting1, size: 22),
       title: "Paramètres",
-      activeColorPrimary: AppColors.primaryColor,
-      inactiveColorPrimary: Colors.white,
+      activeColorPrimary: AppColors.accentText,
+      inactiveColorPrimary: Colors.white70,
     ),
   ];
 

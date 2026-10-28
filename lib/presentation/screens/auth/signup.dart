@@ -99,7 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.primaryColor,
+                    color: Colors.white,
                   ),
                 ),
                  const SizedBox(height: 16),
@@ -144,7 +144,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                   child: const Text(
                     "Déjà un compte ? Connectez-vous",
-                    style: TextStyle(color: AppColors.primaryColor),
+                    style: TextStyle(color: AppColors.accentText, fontWeight: FontWeight.w600),
                   ),
                 ),
               ],

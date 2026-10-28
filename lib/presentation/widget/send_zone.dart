@@ -129,7 +129,7 @@ class _SendZoneState extends State<SendZone> {
           Expanded(
             child: InputField(
               controller: widget.messageController,
-              label: '', // Vous pouvez laisser le label vide ou mettre un placeholder
+              label: 'Message',
               keyboardType: TextInputType.text,
               obscureText: false,
               height: 30, // Hauteur réduite du champ de saisie

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../data/providers/auth_provider.dart';
 import '../../data/providers/bottom_nav_provider.dart';
@@ -23,6 +24,12 @@ class Root extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
+          appBarTheme: const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.light),
+        ),
+        // Interface sombre : icônes claires dans la barre d'état, y compris sans AppBar.
+        builder: (context, child) => AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle.light,
+          child: child!,
         ),
         initialRoute: '/login',
         routes: {

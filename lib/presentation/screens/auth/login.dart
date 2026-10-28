@@ -93,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.primaryColor,
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -128,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: const Text(
                     "Pas encore de compte ? Inscrivez-vous",
-                    style: TextStyle(color: AppColors.primaryColor),
+                    style: TextStyle(color: AppColors.accentText, fontWeight: FontWeight.w600),
                   ),
                 ),
               ],
