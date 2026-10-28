@@ -1,6 +1,6 @@
-# Flutter Chat App
+# WeeChax
 
-<p align="center"><img src="docs/banner.png" alt="Flutter Chat App: real-time chat built with Flutter and Firebase" width="100%"></p>
+<p align="center"><img src="docs/banner.png" alt="WeeChax: real-time chat built with Flutter and Firebase" width="100%"></p>
 
 ![Flutter](https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white)
 ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=black)
